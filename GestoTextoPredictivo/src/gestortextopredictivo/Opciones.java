@@ -6,7 +6,13 @@
 package gestortextopredictivo;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +29,7 @@ public class Opciones extends javax.swing.JFrame {
 
     /**
      * Creates new form Opciones
+     *
      * @param cons
      */
     public Opciones(Consola cons) {
@@ -36,9 +43,9 @@ public class Opciones extends javax.swing.JFrame {
         modelo.addColumn("Tipo");
         modelo.addColumn("Dirección");
         this.jTable1.setModel(modelo);
-        jTable1.setRowHeight(10);
-        TableColumnModel cm=this.jTable1.getColumnModel();
-        cm.getColumn(0).setPreferredWidth(10);
+        // jTable1.setRowHeight(10);
+        // TableColumnModel cm=this.jTable1.getColumnModel();
+        // cm.getColumn(0).setPreferredWidth(10);
 
     }
 
@@ -159,8 +166,8 @@ public class Opciones extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
 
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-            System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+            //System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+            //System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
 
             this.nuevaFila("Fichero", chooser.getSelectedFile().toString());
         } else {
@@ -178,8 +185,8 @@ public class Opciones extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
 
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-            System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+            //System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+            //System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
 
             this.nuevaFila("Directorio", chooser.getSelectedFile().toString());
         } else {
@@ -208,7 +215,6 @@ public class Opciones extends javax.swing.JFrame {
         ArrayList<String> ficheros = new ArrayList();
         ArrayList<String> urls = new ArrayList();
         int index;
-        //char barraSO = '\';
         this.consola.escribir("Añadidas " + modelo.getRowCount() + " referencias:");
 
         for (int i = 0; i < modelo.getRowCount(); i++) {
@@ -226,11 +232,8 @@ public class Opciones extends javax.swing.JFrame {
                     if (f.exists()) {
                         File[] fich = f.listFiles();
                         for (File fich1 : fich) {
-                            //System.out.println(fich[x].getName());
                             index = fich1.getName().lastIndexOf('.');
-                            if (index == -1) {
-                                //System.out.println("No tiene extension");
-                            } else {
+                            if (index != -1) {
                                 if (".pdf".equals(fich1.getName().substring(index, fich1.getName().length()).toLowerCase())) {
                                     if (!ficheros.contains(modelo.getValueAt(i, 1).toString() + "\\" + fich1.getName())) {
                                         ficheros.add(modelo.getValueAt(i, 1).toString() + "\\" + fich1.getName());
@@ -238,8 +241,6 @@ public class Opciones extends javax.swing.JFrame {
                                 }
                             }
                         }
-                    } else {
-                        //System.out.println("El directorio " + modelo.getValueAt(i, 1).toString() + " no existe.");
                     }
                     break;
 
@@ -252,7 +253,52 @@ public class Opciones extends javax.swing.JFrame {
 
         this.consola.escribir("    - " + ficheros.size() + " ficheros.");
         this.consola.escribir("    - " + urls.size() + " urls.");
+
+        Map<String, Integer> palabrasTodas = new HashMap<>();
+
+        extraerPalabrasFichero(ficheros, palabrasTodas);
+
+        this.consola.escribir("Se ha encontrado un total de palabras " + palabrasTodas.size() + " distintas.");
+        this.consola.escribir(palabrasTodas.toString());
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void extraerPalabrasFichero(ArrayList<String> ficheros, Map<String, Integer> palabrasTodas) {
+        lecturaInfo lectura = new lecturaInfo();
+        String aux;
+        String[] frases, palabras;
+        int contPalabras;
+        if (!ficheros.isEmpty()) {
+            for (int i = 0; i < ficheros.size(); i++) {
+                try {
+                    this.consola.escribir("+Lectura del fichero " + ficheros.get(i));
+                    aux = lectura.lectura("pdf", ficheros.get(i));
+                    aux = aux.replaceAll("[^\\dA-Za-zá-úÁ-Ú ]", "");
+                    frases = aux.split("\\.");
+                    this.consola.escribir("    - Detectadas " + frases.length + " frases.");
+                    contPalabras = 0;
+                    for (int j = 0; j < frases.length; j++) {
+                        palabras = frases[j].split(" ");
+                        this.consola.escribir("        " + frases[j]);
+                        this.consola.escribir(Arrays.toString(palabras));
+                        for (int z = 0; z < palabras.length; z++) {
+                            if (!"".equals(palabras[z])) {
+                                ++contPalabras;
+                                this.consola.escribir(contPalabras + "    " + palabras[z].toLowerCase());
+                                if (!palabrasTodas.containsKey(palabras[z].toLowerCase())) {
+                                    palabrasTodas.put(palabras[z].toLowerCase(), 1);
+                                }else{
+                                    
+                                }
+                            }
+                        }
+                    }
+                    this.consola.escribir("    - Detectadas " + contPalabras + " palabras.");
+                } catch (IOException ex) {
+                    Logger.getLogger(Opciones.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
 
     public void nuevaFila(String tipo, String ruta) {
         String[] datos = new String[2];
