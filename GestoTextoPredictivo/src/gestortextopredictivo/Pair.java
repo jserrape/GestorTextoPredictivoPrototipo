@@ -5,64 +5,24 @@
  */
 package gestortextopredictivo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author jcsp0003
- * @param <P>
- * @param <S>
  */
-public class Pair<P, S> {
+public class Pair {
 
-    private final P left;
-    private final S right;
+    private int ocurrencias;
+    private final ArrayList<String> frecuencias; //<-- Esto deberá ser otro pair
 
-    /**
-     *
-     * @param left
-     * @param right
-     */
-    public Pair(P left, S right) {
-        this.left = left;
-        this.right = right;
+    public Pair() {
+        this.ocurrencias = 0;
+        this.frecuencias = new ArrayList();
     }
 
-    /**
-     *
-     * @return
-     */
-    public P getLeft() {
-        return left;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public S getRight() {
-        return right;
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public int hashCode() {
-        return left.hashCode() ^ right.hashCode();
-    }
-
-    /**
-     *
-     * @param o
-     * @return
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Pair)) {
-            return false;
-        }
-        Pair pairo = (Pair) o;
-        return this.left.equals(pairo.getLeft()) && this.right.equals(pairo.getRight());
+    public void incrementaF() {
+        ++ocurrencias;
     }
 
 }
