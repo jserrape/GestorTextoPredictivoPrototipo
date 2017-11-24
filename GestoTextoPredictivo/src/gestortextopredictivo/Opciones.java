@@ -14,7 +14,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -27,6 +29,8 @@ public class Opciones extends javax.swing.JFrame {
     private final DefaultTableModel modelo;
     private final Consola consola;
 
+    private final Predictor predictor;
+
     /**
      * Creates new form Opciones
      *
@@ -36,6 +40,7 @@ public class Opciones extends javax.swing.JFrame {
         initComponents();
 
         this.consola = cons;
+        this.predictor = new Predictor(3, 4); // <--- esto lo tengo que mover a cuando le de a aceptar
 
         setLocationRelativeTo(null);
 
@@ -43,9 +48,11 @@ public class Opciones extends javax.swing.JFrame {
         modelo.addColumn("Tipo");
         modelo.addColumn("Dirección");
         this.jTable1.setModel(modelo);
-        // jTable1.setRowHeight(10);
-        // TableColumnModel cm=this.jTable1.getColumnModel();
-        // cm.getColumn(0).setPreferredWidth(10);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        this.jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        TableColumnModel cm = this.jTable1.getColumnModel();
+        cm.getColumn(1).setPreferredWidth(450);
 
     }
 
@@ -65,6 +72,10 @@ public class Opciones extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jSpinner1 = new javax.swing.JSpinner();
+        jLabel1 = new javax.swing.JLabel();
+        jSpinner2 = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,37 +127,62 @@ public class Opciones extends javax.swing.JFrame {
             }
         });
 
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 0, 5, 1));
+
+        jLabel1.setText("Tamaño de la semilla");
+
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 0, 5, 1));
+
+        jLabel2.setText("Tamaño de la predicción");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addGap(23, 23, 23)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4)
+                        .addComponent(jLabel1)
+                        .addGap(46, 46, 46)
+                        .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(47, 47, 47)
+                                .addComponent(jButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton5)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -259,40 +295,16 @@ public class Opciones extends javax.swing.JFrame {
         extraerPalabrasFichero(ficheros, palabrasTodas);
 
         this.consola.escribir("Se ha encontrado un total de palabras " + palabrasTodas.size() + " distintas.");
-        this.consola.escribir(palabrasTodas.toString());
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void extraerPalabrasFichero(ArrayList<String> ficheros, Map<String, Integer> palabrasTodas) {
         lecturaInfo lectura = new lecturaInfo();
-        String aux;
-        String[] frases, palabras;
-        int contPalabras;
+        
         if (!ficheros.isEmpty()) {
             for (int i = 0; i < ficheros.size(); i++) {
                 try {
-                    this.consola.escribir("+Lectura del fichero " + ficheros.get(i));
-                    aux = lectura.lectura("pdf", ficheros.get(i));
-                    aux = aux.replaceAll("[^\\dA-Za-zá-úÁ-Ú ]", "");
-                    frases = aux.split("\\.");
-                    this.consola.escribir("    - Detectadas " + frases.length + " frases.");
-                    contPalabras = 0;
-                    for (int j = 0; j < frases.length; j++) {
-                        palabras = frases[j].split(" ");
-                        this.consola.escribir("        " + frases[j]);
-                        this.consola.escribir(Arrays.toString(palabras));
-                        for (int z = 0; z < palabras.length; z++) {
-                            if (!"".equals(palabras[z])) {
-                                ++contPalabras;
-                                this.consola.escribir(contPalabras + "    " + palabras[z].toLowerCase());
-                                if (!palabrasTodas.containsKey(palabras[z].toLowerCase())) {
-                                    palabrasTodas.put(palabras[z].toLowerCase(), 1);
-                                }else{
-                                    
-                                }
-                            }
-                        }
-                    }
-                    this.consola.escribir("    - Detectadas " + contPalabras + " palabras.");
+                    //this.consola.escribir("+Lectura del fichero " + ficheros.get(i));
+                    predictor.insertarTexto(lectura.lectura("pdf", ficheros.get(i)), consola);
                 } catch (IOException ex) {
                     Logger.getLogger(Opciones.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -313,7 +325,11 @@ public class Opciones extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

@@ -24,7 +24,6 @@ public class main {
         Opciones opciones = new Opciones(consola);
         opciones.setVisible(true);
         opciones.setResizable(false);
-         
     }
 
 
