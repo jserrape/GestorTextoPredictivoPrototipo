@@ -289,14 +289,17 @@ public class Opciones extends javax.swing.JFrame {
         this.consola.escribir("    - " + ficheros.size() + " ficheros.");
         this.consola.escribir("    - " + urls.size() + " urls.");
 
-        Map<String, Integer> palabrasTodas = new HashMap<>();
-
-        extraerPalabrasFichero(ficheros, palabrasTodas);
-
-        this.consola.escribir("Se ha encontrado un total de palabras " + palabrasTodas.size() + " distintas.");
+        extraerPalabrasFichero(ficheros);
+        //reordenarPredicciones();
+        
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void extraerPalabrasFichero(ArrayList<String> ficheros, Map<String, Integer> palabrasTodas) {
+    
+    private void reordenarPredicciones(){
+        this.predictor.reordenar();        
+    }
+    
+    private void extraerPalabrasFichero(ArrayList<String> ficheros) {
         lecturaInfo lectura = new lecturaInfo();
 
         if (!ficheros.isEmpty()) {
@@ -316,6 +319,10 @@ public class Opciones extends javax.swing.JFrame {
         datos[0] = tipo;
         datos[1] = ruta;
         modelo.addRow(datos);
+    }
+    
+    public int tamSemilla(){
+        return (int)this.jtSemilla.getValue();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

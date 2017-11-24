@@ -7,6 +7,7 @@ package gestortextopredictivo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,15 +20,29 @@ public class Predictor {
     private final int tamSemilla;
     private final int tamPrediccion;
 
-    private final Map<String, Predicciones> almacenSemillas; // Estructura de datos principal, para almacenar las relaciones
+    //private final Map<String, Predicciones> almacenSemillas; // Estructura de datos principal, para almacenar las relaciones
+    private Map<String, Predicciones>[] almacenesSemillas;
 
     public Predictor(int tamSemillaa, int tamPrediccionn) {
         this.tamSemilla = tamSemillaa;
         this.tamPrediccion = tamPrediccionn;
-        this.almacenSemillas = new HashMap<>();
+        //this.almacenSemillas = new HashMap<>();
+        this.almacenesSemillas = new Map[tamSemilla + 1];
+        for (int i = 1; i < tamSemilla + 1; i++) {
+            almacenesSemillas[i] = new HashMap<>();
+        }
     }
 
     public void insertarTexto(String textoFichero, Consola consola) {
+        for (int i = 1; i < tamSemilla + 1; i++) {
+            insertarTextoAlmacen(textoFichero, consola, i);
+        }
+    }
+
+    public void insertarTextoAlmacen(String textoFichero, Consola consola, int almacen) {
+        System.out.println("-------------------------------------------------------------");
+        System.out.println("        COMIENZO CON EL ALMACEN DE TAM " + almacen);
+        System.out.println("-------------------------------------------------------------");
         String conjuntoSemilla;
         String conjuntoPrediccion;
         String[] frases, palabras;
@@ -37,44 +52,65 @@ public class Predictor {
         consola.escribir("    - Detectadas " + frases.length + " frases.");
         for (int i = 0; i < frases.length; i++) {
             palabras = frases[i].split("\\s+");
-            consola.escribir("---------" + frases[i]);
-            consola.escribir(Arrays.toString(palabras));
-
-            for (int j = 1; j < palabras.length - tamSemilla; j++) { //<--- Antes la primera palabra me la tomaba como "", comprobar
+            //consola.escribir("---------" + frases[i]);
+            //consola.escribir(Arrays.toString(palabras));
+            System.out.println("Lectura de la frase:");
+            System.out.println("                                            " + Arrays.toString(palabras));
+            for (int j = 0; j < palabras.length - almacen; j++) { //<--- Antes la primera palabra me la tomaba como "", comprobar
+                if ("".equals(palabras[j])) {
+                   //continue;
+                }
                 conjuntoSemilla = "";
                 conjuntoPrediccion = "";
                 //Creo la semilla
-                for (int z = 0; z < tamSemilla; z++) {
+                for (int z = 0; z < almacen; z++) {
                     conjuntoSemilla += " " + palabras[j + z];
                 }
                 conjuntoSemilla = conjuntoSemilla.substring(1, conjuntoSemilla.length());
+                System.out.println("       +Semilla: "+conjuntoSemilla);
 
                 //Creo la prediccion
                 for (int z = 0; z < tamPrediccion; z++) {
-                    if ((j + z + tamSemilla) < palabras.length) {
-                        conjuntoPrediccion += " " + palabras[j + z + tamSemilla];
+                    if ((j + z + almacen) < palabras.length) {
+                        conjuntoPrediccion += " " + palabras[j + z + almacen];
                     }
                 }
                 conjuntoPrediccion = conjuntoPrediccion.substring(1, conjuntoPrediccion.length());
-
+                System.out.println("       +Prediccion: "+conjuntoPrediccion);
+                
+                
                 //consola.escribir(conjuntoSemilla + "----" + conjuntoPrediccion);
-
-                if (!almacenSemillas.containsKey(conjuntoSemilla)) { //Si no esta la semilla la creo vacia, para despues insertar la prediccion
-                    almacenSemillas.put(conjuntoSemilla, new Predicciones());
+                if (!almacenesSemillas[almacen].containsKey(conjuntoSemilla)) { //Si no esta la semilla la creo vacia, para despues insertar la prediccion
+                    almacenesSemillas[almacen].put(conjuntoSemilla, new Predicciones());
+                    System.out.println("            Nueva semilla");
                 }
                 //AQUI INSERTARÉ LA PREDICCION
-                almacenSemillas.get(conjuntoSemilla).nuevaPrediccion(conjuntoPrediccion);
+                almacenesSemillas[almacen].get(conjuntoSemilla).nuevaPrediccion(conjuntoPrediccion);
+                
+                System.out.println("");
             }
         }
-        consola.escribir("    - Detectadas " + almacenSemillas.size() + " palabras.");
+        consola.escribir("    - Detectadas " + almacenesSemillas[almacen].size() + " palabras.");
     }
-    
-    public ArrayList<Ocurrencia> enviarPrediccion(String texto){
-        if(almacenSemillas.containsKey(texto)){
-            return almacenSemillas.get(texto).getOcurrencias();
+
+    public ArrayList<Ocurrencia> enviarPrediccion(String texto) {
+
+        for (int i = this.tamSemilla; i > 0; i--) {
+            if (almacenesSemillas[i].containsKey(texto)) {
+                return almacenesSemillas[i].get(texto).getOcurrencias();
+            }
         }
+
         //ArrayList<Ocurrencia> arr=new ArrayList();
         return new ArrayList();
     }
+
+    public void reordenar() {
+        QuickSort qui = new QuickSort();
+        for (int i = this.tamSemilla; i > 0; i--) {
+            almacenesSemillas[i].forEach((k, v) -> qui.sort(v.getOcurrencias()));
+        }
+    }
+
 
 }

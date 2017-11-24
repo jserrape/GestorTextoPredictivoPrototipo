@@ -50,6 +50,9 @@ public class QuickSort {
         Ocurrencia temp = ocurrencias.get(i);
         ocurrencias.set(i, ocurrencias.get(j));
         ocurrencias.set(j, temp);
+        //ocurrencias.sort(c);
     }
+    
+    
 
 }

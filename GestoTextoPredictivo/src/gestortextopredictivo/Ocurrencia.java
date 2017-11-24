@@ -5,6 +5,8 @@
  */
 package gestortextopredictivo;
 
+import java.util.Comparator;
+
 /**
  *
  * @author jcsp0003
@@ -12,7 +14,7 @@ package gestortextopredictivo;
 public class Ocurrencia {
 
     private int n;
-    private final String prediccion;
+    private String prediccion;
 
     public Ocurrencia(String pred) {
         this.n = 1;
@@ -30,5 +32,14 @@ public class Ocurrencia {
     public String getPrediccion() {
         return prediccion;
     }
+    
+    public void setN(int n) {
+        this.n = n;
+    }
+
+    public void setPrediccion(String prediccion) {
+        this.prediccion = prediccion;
+    }
+
 
 }

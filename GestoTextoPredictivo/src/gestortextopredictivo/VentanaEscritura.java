@@ -5,7 +5,10 @@
  */
 package gestortextopredictivo;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -28,13 +31,47 @@ public class VentanaEscritura extends javax.swing.JFrame {
         this.opciones = new Opciones(consola);
         opciones.setVisible(true);
         opciones.setResizable(false);
+        
+        this.jTextField1.addKeyListener(new KeyListener(){
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (Character.isSpaceChar(e.getKeyChar())){
+                    hacerPrediccion();
+                }
+            }
+        });
     }
 
     private void hacerPrediccion() {
-        ArrayList<Ocurrencia> predicciones = this.opciones.hacerPrediccion(this.jTextField1.getText());
         this.jTextArea1.setText("");
+        int limite=0;
+        String semilla="";
+        String[] texto= this.jTextField1.getText().split("\\s+");
+        for(int i=texto.length-1;i>=0;i--){
+            if(!"".equals(texto[i])){
+                semilla= texto[i]+" "+semilla;
+                ++limite;
+                if(limite==this.opciones.tamSemilla()){
+                    break;
+                }
+            }
+        }
+        semilla = semilla.substring(0, semilla.length()-1);
+        this.consola.escribir("semilla:-" +semilla+"-");
+        ArrayList<Ocurrencia> predicciones = this.opciones.hacerPrediccion(semilla);
         for(int i=0;i<predicciones.size();i++){
-            this.jTextArea1.append(i+1+": "+predicciones.get(i).getPrediccion()+"\n");
+            this.jTextArea1.append(i+1+": "+predicciones.get(i).getPrediccion()+"  -  "+predicciones.get(i).getN()+"\n");
         }
     }
 
