@@ -23,13 +23,20 @@ public class Predicciones {
 
     public void nuevaPrediccion(String pred) {
         ++N;
-        for (int i = 0; i < ocurrencias.size(); i++) {
-            if (ocurrencias.get(i).getPrediccion().equals(pred)) {
-                ocurrencias.get(i).nuevaOcurrencia();
+        for (int i = 0; i < getOcurrencias().size(); i++) {
+            if (getOcurrencias().get(i).getPrediccion().equals(pred)) {
+                getOcurrencias().get(i).nuevaOcurrencia();
                 return;
             }
         }
-        ocurrencias.add(new Ocurrencia(pred));
+        getOcurrencias().add(new Ocurrencia(pred));
     }
 
+    public int getN() {
+        return N;
+    }
+
+    public ArrayList<Ocurrencia> getOcurrencias() {
+        return ocurrencias;
+    }
 }

@@ -17,13 +17,9 @@ public class main {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException {
-        Consola consola = new Consola();
-        consola.setVisible(true);
-
-        Opciones opciones = new Opciones(consola);
-        opciones.setVisible(true);
-        opciones.setResizable(false);
+    public static void main(String[] args) throws IOException {       
+        VentanaEscritura ventana=new VentanaEscritura();
+        ventana.setVisible(true);
     }
 
 

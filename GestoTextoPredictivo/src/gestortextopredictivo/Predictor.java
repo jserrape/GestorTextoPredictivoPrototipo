@@ -5,6 +5,7 @@
  */
 package gestortextopredictivo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class Predictor {
         String conjuntoPrediccion;
         String[] frases, palabras;
         textoFichero = textoFichero.toLowerCase().replaceAll("[^\\dA-Za-z.á-úÁ-Ú ]", "");
-        System.out.println(textoFichero);
+        //System.out.println(textoFichero);
         frases = textoFichero.split("\\.");
         consola.escribir("    - Detectadas " + frases.length + " frases.");
         for (int i = 0; i < frases.length; i++) {
@@ -66,6 +67,14 @@ public class Predictor {
             }
         }
         consola.escribir("    - Detectadas " + almacenSemillas.size() + " palabras.");
+    }
+    
+    public ArrayList<Ocurrencia> enviarPrediccion(String texto){
+        if(almacenSemillas.containsKey(texto)){
+            return almacenSemillas.get(texto).getOcurrencias();
+        }
+        //ArrayList<Ocurrencia> arr=new ArrayList();
+        return new ArrayList();
     }
 
 }
