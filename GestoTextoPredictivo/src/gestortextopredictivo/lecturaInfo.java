@@ -50,6 +50,7 @@ public class lecturaInfo {
         // reading text from page 1 to 10
         // if you want to get text from full pdf file use this code
         pdfStripper.setEndPage(pdDoc.getNumberOfPages());
+        //System.out.println(pdfStripper.getText(pdDoc));
         return pdfStripper.getText(pdDoc);
     }
 

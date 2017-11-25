@@ -93,12 +93,11 @@ public class Predictor {
     }
 
     public ArrayList<Ocurrencia> enviarPrediccion(String texto) {
-
+        ArrayList<Ocurrencia> arr = new ArrayList();
         String[] palabras = texto.split("\\s+");
         int limite;
         String semilla;
 
-        System.out.println(Arrays.toString(palabras));
         for (int i = this.tamSemilla; i > 0; i--) {
             limite = 0;
             semilla = "";
@@ -117,16 +116,19 @@ public class Predictor {
                 }
             }
             semilla = semilla.substring(0, semilla.length() - 1);
-            System.out.println("Semilla usada: " + semilla);
 
             if (almacenesSemillas[i].containsKey(semilla)) {
-                System.out.println("Lo tienen");
-                return almacenesSemillas[i].get(semilla).getOcurrencias();
+                System.out.println("Semilla usada: " + semilla);
+                for (int z = 0; z < almacenesSemillas[i].get(semilla).getOcurrencias().size(); z++) {
+                    arr.add(almacenesSemillas[i].get(semilla).getOcurrencias().get(z));
+                    if (arr.size() == 10) {
+                        return arr;
+                    }
+                }
             }
         }
 
-        //ArrayList<Ocurrencia> arr=new ArrayList();
-        return new ArrayList();
+        return arr;
     }
 
     public void reordenar() {
