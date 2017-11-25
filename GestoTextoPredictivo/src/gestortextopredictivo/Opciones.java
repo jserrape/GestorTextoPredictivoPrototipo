@@ -250,7 +250,7 @@ public class Opciones extends javax.swing.JFrame {
         ArrayList<String> ficheros = new ArrayList();
         ArrayList<String> urls = new ArrayList();
         int index;
-        this.consola.escribir("Añadidas " + modelo.getRowCount() + " referencias:");
+        //this.consola.escribir("Añadidas " + modelo.getRowCount() + " referencias:");
 
         for (int i = 0; i < modelo.getRowCount(); i++) {
 
@@ -286,8 +286,8 @@ public class Opciones extends javax.swing.JFrame {
 
         }
 
-        this.consola.escribir("    - " + ficheros.size() + " ficheros.");
-        this.consola.escribir("    - " + urls.size() + " urls.");
+        //this.consola.escribir("    - " + ficheros.size() + " ficheros.");
+        //this.consola.escribir("    - " + urls.size() + " urls.");
 
         extraerPalabrasFichero(ficheros);
         //reordenarPredicciones();

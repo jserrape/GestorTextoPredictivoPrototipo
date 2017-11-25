@@ -55,6 +55,7 @@ public class VentanaEscritura extends javax.swing.JFrame {
 
     private void hacerPrediccion() {
         this.jTextArea1.setText("");
+        /*
         int limite=0;
         String semilla="";
         String[] texto= this.jTextField1.getText().split("\\s+");
@@ -69,7 +70,8 @@ public class VentanaEscritura extends javax.swing.JFrame {
         }
         semilla = semilla.substring(0, semilla.length()-1);
         this.consola.escribir("semilla:-" +semilla+"-");
-        ArrayList<Ocurrencia> predicciones = this.opciones.hacerPrediccion(semilla);
+        */
+        ArrayList<Ocurrencia> predicciones = this.opciones.hacerPrediccion(this.jTextField1.getText()); //Envia todo el etxto, habria que enviar menos....
         for(int i=0;i<predicciones.size();i++){
             this.jTextArea1.append(i+1+": "+predicciones.get(i).getPrediccion()+"  -  "+predicciones.get(i).getN()+"\n");
         }

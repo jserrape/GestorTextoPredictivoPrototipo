@@ -40,25 +40,25 @@ public class Predictor {
     }
 
     public void insertarTextoAlmacen(String textoFichero, Consola consola, int almacen) {
-        System.out.println("-------------------------------------------------------------");
-        System.out.println("        COMIENZO CON EL ALMACEN DE TAM " + almacen);
-        System.out.println("-------------------------------------------------------------");
+        //System.out.println("-------------------------------------------------------------");
+        //System.out.println("        COMIENZO CON EL ALMACEN DE TAM " + almacen);
+        //System.out.println("-------------------------------------------------------------");
         String conjuntoSemilla;
         String conjuntoPrediccion;
         String[] frases, palabras;
         textoFichero = textoFichero.toLowerCase().replaceAll("[^\\dA-Za-z.á-úÁ-Ú ]", "");
         //System.out.println(textoFichero);
         frases = textoFichero.split("\\.");
-        consola.escribir("    - Detectadas " + frases.length + " frases.");
+        //consola.escribir("    - Detectadas " + frases.length + " frases.");
         for (int i = 0; i < frases.length; i++) {
             palabras = frases[i].split("\\s+");
             //consola.escribir("---------" + frases[i]);
             //consola.escribir(Arrays.toString(palabras));
-            System.out.println("Lectura de la frase:");
-            System.out.println("                                            " + Arrays.toString(palabras));
+            //System.out.println("Lectura de la frase:");
+            //System.out.println("                                            " + Arrays.toString(palabras));
             for (int j = 0; j < palabras.length - almacen; j++) { //<--- Antes la primera palabra me la tomaba como "", comprobar
                 if ("".equals(palabras[j])) {
-                   //continue;
+                    //continue;
                 }
                 conjuntoSemilla = "";
                 conjuntoPrediccion = "";
@@ -67,7 +67,7 @@ public class Predictor {
                     conjuntoSemilla += " " + palabras[j + z];
                 }
                 conjuntoSemilla = conjuntoSemilla.substring(1, conjuntoSemilla.length());
-                System.out.println("       +Semilla: "+conjuntoSemilla);
+                //System.out.println("       +Semilla: "+conjuntoSemilla);
 
                 //Creo la prediccion
                 for (int z = 0; z < tamPrediccion; z++) {
@@ -76,18 +76,17 @@ public class Predictor {
                     }
                 }
                 conjuntoPrediccion = conjuntoPrediccion.substring(1, conjuntoPrediccion.length());
-                System.out.println("       +Prediccion: "+conjuntoPrediccion);
-                
-                
+                //System.out.println("       +Prediccion: "+conjuntoPrediccion);
+
                 //consola.escribir(conjuntoSemilla + "----" + conjuntoPrediccion);
                 if (!almacenesSemillas[almacen].containsKey(conjuntoSemilla)) { //Si no esta la semilla la creo vacia, para despues insertar la prediccion
                     almacenesSemillas[almacen].put(conjuntoSemilla, new Predicciones());
-                    System.out.println("            Nueva semilla");
+                    //System.out.println("            Nueva semilla");
                 }
                 //AQUI INSERTARÉ LA PREDICCION
                 almacenesSemillas[almacen].get(conjuntoSemilla).nuevaPrediccion(conjuntoPrediccion);
-                
-                System.out.println("");
+
+                //System.out.println("");
             }
         }
         consola.escribir("    - Detectadas " + almacenesSemillas[almacen].size() + " palabras.");
@@ -95,9 +94,34 @@ public class Predictor {
 
     public ArrayList<Ocurrencia> enviarPrediccion(String texto) {
 
+        String[] palabras = texto.split("\\s+");
+        int limite;
+        String semilla;
+
+        System.out.println(Arrays.toString(palabras));
         for (int i = this.tamSemilla; i > 0; i--) {
-            if (almacenesSemillas[i].containsKey(texto)) {
-                return almacenesSemillas[i].get(texto).getOcurrencias();
+            limite = 0;
+            semilla = "";
+            for (int j = palabras.length - 1; j >= 0; j--) {
+                if (!"".equals(palabras[j])) {
+                    semilla = palabras[j] + " " + semilla;
+                    ++limite;
+                    if (limite == i) {
+                        if ("".equals(semilla)) {
+                            return new ArrayList();
+                        }
+                        break;
+                    }
+                } else {
+                    System.out.println("SI ESTO NO SALTA NUNCA, ES QUE ES INNECESARIO");
+                }
+            }
+            semilla = semilla.substring(0, semilla.length() - 1);
+            System.out.println("Semilla usada: " + semilla);
+
+            if (almacenesSemillas[i].containsKey(semilla)) {
+                System.out.println("Lo tienen");
+                return almacenesSemillas[i].get(semilla).getOcurrencias();
             }
         }
 
@@ -111,6 +135,5 @@ public class Predictor {
             almacenesSemillas[i].forEach((k, v) -> qui.sort(v.getOcurrencias()));
         }
     }
-
 
 }
