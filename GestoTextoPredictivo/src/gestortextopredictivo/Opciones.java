@@ -199,9 +199,6 @@ public class Opciones extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
 
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            //System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-            //System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
-
             this.nuevaFila("Fichero", chooser.getSelectedFile().toString());
         } else {
             System.out.println("No Selection ");
@@ -209,7 +206,6 @@ public class Opciones extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
         JFileChooser chooser = new JFileChooser();
 
         chooser.setCurrentDirectory(new java.io.File("."));
@@ -218,9 +214,6 @@ public class Opciones extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
 
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            //System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-            //System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
-
             this.nuevaFila("Directorio", chooser.getSelectedFile().toString());
         } else {
             System.out.println("No Selection ");
@@ -228,7 +221,6 @@ public class Opciones extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
         int filaselecionada = jTable1.getSelectedRow();
         if (filaselecionada >= 0) {
             modelo.removeRow(filaselecionada);
@@ -238,7 +230,6 @@ public class Opciones extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
         nuevaURL url = new nuevaURL(this, true, this);
         url.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -250,7 +241,6 @@ public class Opciones extends javax.swing.JFrame {
         ArrayList<String> ficheros = new ArrayList();
         ArrayList<String> urls = new ArrayList();
         int index;
-        //this.consola.escribir("Añadidas " + modelo.getRowCount() + " referencias:");
 
         for (int i = 0; i < modelo.getRowCount(); i++) {
 
@@ -286,12 +276,8 @@ public class Opciones extends javax.swing.JFrame {
 
         }
 
-        //this.consola.escribir("    - " + ficheros.size() + " ficheros.");
-        //this.consola.escribir("    - " + urls.size() + " urls.");
-
         extraerPalabrasFichero(ficheros);
         //reordenarPredicciones();
-        
     }//GEN-LAST:event_jButton5ActionPerformed
 
     
@@ -305,7 +291,6 @@ public class Opciones extends javax.swing.JFrame {
         if (!ficheros.isEmpty()) {
             for (int i = 0; i < ficheros.size(); i++) {
                 try {
-                    //this.consola.escribir("+Lectura del fichero " + ficheros.get(i));
                     predictor.insertarTexto(lectura.lectura("pdf", ficheros.get(i)), consola);
                 } catch (IOException ex) {
                     Logger.getLogger(Opciones.class.getName()).log(Level.SEVERE, null, ex);

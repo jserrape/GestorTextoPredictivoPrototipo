@@ -5,8 +5,6 @@
  */
 package gestortextopredictivo;
 
-import java.util.Comparator;
-
 /**
  *
  * @author jcsp0003

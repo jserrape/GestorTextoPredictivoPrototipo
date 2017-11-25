@@ -26,10 +26,7 @@ public class Predicciones {
         for (int i = 0; i < getOcurrencias().size(); i++) {
             if (getOcurrencias().get(i).getPrediccion().equals(pred)) {
                 getOcurrencias().get(i).nuevaOcurrencia();
-                //System.out.println("Nueva");
                 return;
-            }else{
-                //System.out.println(getOcurrencias().get(i).getPrediccion()+" NO ES "+pred);
             }
         }
         getOcurrencias().add(new Ocurrencia(pred));
