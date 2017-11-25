@@ -5,9 +5,12 @@
  */
 package gestortextopredictivo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,10 +33,10 @@ public class Predictor {
         }
     }
 
-    public void insertarTexto(String textoFichero, Consola consola) {
-        for (int i = 1; i < tamSemilla + 1; i++) {
-            insertarTextoAlmacen(textoFichero, consola, i);
-        }
+    public void insertarTexto(ArrayList<String> ficheros, javax.swing.JProgressBar jProgressBar1) {
+        hiloLectura hiloLec = new hiloLectura(ficheros,ficheros,tamSemilla,tamPrediccion,almacenesSemillas,jProgressBar1); //CAMBIAR Y ENVIAR EL DE URLS
+        Thread th = new Thread(hiloLec);
+        th.start();
     }
 
     public void insertarTextoAlmacen(String textoFichero, Consola consola, int almacen) {
@@ -53,7 +56,7 @@ public class Predictor {
                 }
                 conjuntoSemilla = "";
                 conjuntoPrediccion = "";
-                
+
                 //Creo la semilla
                 for (int z = 0; z < almacen; z++) {
                     conjuntoSemilla += " " + palabras[j + z];
