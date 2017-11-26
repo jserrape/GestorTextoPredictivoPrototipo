@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gestortextopredictivo;
 
 import java.io.BufferedReader;
@@ -23,6 +18,13 @@ import org.jsoup.Jsoup;
  */
 public class lecturaDatos {
 
+    /**
+     * 
+     * @param tipo
+     * @param path
+     * @return
+     * @throws IOException 
+     */
     public String lectura(String tipo, String path) throws IOException {
         if ("pdf".equals(tipo)) {
             return nuevoPDF(path);
@@ -31,6 +33,12 @@ public class lecturaDatos {
         }
     }
 
+    /**
+     * 
+     * @param filePath
+     * @return
+     * @throws IOException 
+     */
     private String nuevoPDF(String filePath) throws IOException {
         File file = new File(filePath);
         PDFParser parser = new PDFParser(new RandomAccessFile(file, "r"));
@@ -49,6 +57,12 @@ public class lecturaDatos {
         return tx;
     }
 
+    /**
+     * 
+     * @param urlPath
+     * @return
+     * @throws IOException 
+     */
     private String nuevaURL(String urlPath) throws IOException {
         String line, all = "";
         BufferedReader in = null;

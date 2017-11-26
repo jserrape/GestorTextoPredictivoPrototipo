@@ -14,13 +14,20 @@ import java.util.ArrayList;
 public class Predicciones {
 
     private int N;
-    private final ArrayList<Ocurrencia> ocurrencias;//<-- Esto deberá ser una PriorityQueue
+    private final ArrayList<Ocurrencia> ocurrencias;
 
+    /**
+     * Construcor por defecto
+     */
     public Predicciones() {
         this.N = 0;
         this.ocurrencias = new ArrayList();
     }
 
+    /**
+     * Crea una nueva prediccion
+     * @param pred Texto de la prediccion
+     */
     public void nuevaPrediccion(String pred) {
         ++N;
         for (int i = 0; i < getOcurrencias().size(); i++) {
@@ -32,10 +39,18 @@ public class Predicciones {
         getOcurrencias().add(new Ocurrencia(pred));
     }
 
+    /**
+     * Devuelve el numero de predicciones de la semilla
+     * @return Numero de predicciones
+     */
     public int getN() {
         return N;
     }
 
+    /**
+     * Devuelve las predicciones de la semilla
+     * @return Predicciones de la semilla
+     */
     public ArrayList<Ocurrencia> getOcurrencias() {
         return ocurrencias;
     }

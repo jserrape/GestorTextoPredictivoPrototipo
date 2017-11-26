@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gestortextopredictivo;
 
 import java.awt.event.KeyEvent;
@@ -15,11 +10,11 @@ import javax.swing.JTextField;
  * @author jcsp0003
  */
 public class VentanaEscritura extends javax.swing.JFrame {
-    
+
     private final Opciones opciones;
 
     /**
-     * Creates new form VentanaEscritura
+     * Constructor por defecto
      */
     public VentanaEscritura() {
         initComponents();
@@ -31,6 +26,9 @@ public class VentanaEscritura extends javax.swing.JFrame {
         this.jTextField1.addKeyListener(new KeyListenerImpl(jTextField1));
     }
 
+    /**
+     * Funcion para realizar una prediccion en base al etxto escrito
+     */
     private void hacerPrediccion() {
         this.jTextArea1.setText("");
         ArrayList<Ocurrencia> predicciones = this.opciones.hacerPrediccion(this.jTextField1.getText()); //Envia todo el texto, habria que enviar menos....
@@ -85,9 +83,9 @@ public class VentanaEscritura extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-        hacerPrediccion();
+
     }//GEN-LAST:event_jTextField1ActionPerformed
 
 
@@ -97,26 +95,42 @@ public class VentanaEscritura extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Listener de escritura
+     */
     private class KeyListenerImpl implements KeyListener {
 
-        public KeyListenerImpl() {
-        }
-        private javax.swing.JTextField jTextField1;
+        private final javax.swing.JTextField jTextField1;
 
+        /**
+         * Constructor parametrizado
+         *
+         * @param jTextField1 Zona de escritura
+         */
         private KeyListenerImpl(JTextField jTextField1) {
             this.jTextField1 = jTextField1;
         }
 
+        /**
+         * Listener que sucede al: al pulsar y soltar la tecla.
+         * @param e Evento sucedido
+         */
         @Override
         public void keyTyped(KeyEvent e) {
-
         }
 
+        /**
+         * Listener que sucede al: al pulsar la tecla.
+         * @param e Evento sucedido
+         */
         @Override
         public void keyPressed(KeyEvent e) {
-
         }
 
+        /**
+         * Listener que sucede al: al soltar la tecla.
+         * @param e Evento sucedido
+         */
         @Override
         public void keyReleased(KeyEvent e) { //CAMBIAR: si hay texto y borro, la prediccion sigue
             //if (Character.isSpaceChar(e.getKeyChar())){

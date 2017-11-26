@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gestortextopredictivo;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -21,8 +13,13 @@ public class Predictor {
     private final int tamSemilla;
     private final int tamPrediccion;
 
-    private Map<String, Predicciones>[] almacenesSemillas;
+    private final Map<String, Predicciones>[] almacenesSemillas;
 
+    /**
+     * 
+     * @param tamSemillaa
+     * @param tamPrediccionn 
+     */
     public Predictor(int tamSemillaa, int tamPrediccionn) {
         this.tamSemilla = tamSemillaa;
         this.tamPrediccion = tamPrediccionn;
@@ -33,12 +30,22 @@ public class Predictor {
         }
     }
 
+    /**
+     * 
+     * @param ficheros
+     * @param jProgressBar1 
+     */
     public void insertarTexto(ArrayList<String> ficheros, javax.swing.JProgressBar jProgressBar1) {
-        hiloLectura hiloLec = new hiloLectura(ficheros,ficheros,tamSemilla,tamPrediccion,almacenesSemillas,jProgressBar1); //CAMBIAR Y ENVIAR EL DE URLS
+        hiloLectura hiloLec = new hiloLectura(ficheros, ficheros, tamSemilla, tamPrediccion, almacenesSemillas, jProgressBar1); //CAMBIAR Y ENVIAR EL DE URLS
         Thread th = new Thread(hiloLec);
         th.start();
     }
 
+    /**
+     * 
+     * @param textoFichero
+     * @param almacen 
+     */
     public void insertarTextoAlmacen(String textoFichero, int almacen) {
         String conjuntoSemilla;
         String conjuntoPrediccion;
@@ -47,9 +54,8 @@ public class Predictor {
 
         frases = textoFichero.split("\\.");
 
-        for (int i = 0; i < frases.length; i++) {
-            palabras = frases[i].split("\\s+");
-
+        for (String frase : frases) {
+            palabras = frase.split("\\s+");
             for (int j = 0; j < palabras.length - almacen; j++) { //<--- Antes la primera palabra me la tomaba como "", comprobar
                 if ("".equals(palabras[j])) {
                     //continue;
@@ -76,16 +82,20 @@ public class Predictor {
                 }
                 //AQUI INSERTARÉ LA PREDICCION
                 almacenesSemillas[almacen].get(conjuntoSemilla).nuevaPrediccion(conjuntoPrediccion);
-
-                //System.out.println("");
             }
         }
     }
 
+    /**
+     * 
+     * @param texto
+     * @return 
+     */
     public ArrayList<Ocurrencia> enviarPrediccion(String texto) {
         /**
-         * AQUI DEBERIA MIRAR LA FRASE Y SI EL ULTIMO CARACTER NO ES " " SIGIFICA QUE LA ULTIMA PALABRA NO ESTA ACABADA
-         * PRO LO QUE TENDRIA QUE COMPLETARLA Y DESPUÉS HACER LA PREDICCION NORMAL.
+         * AQUI DEBERIA MIRAR LA FRASE Y SI EL ULTIMO CARACTER NO ES " "
+         * SIGIFICA QUE LA ULTIMA PALABRA NO ESTA ACABADA PRO LO QUE TENDRIA QUE
+         * COMPLETARLA Y DESPUÉS HACER LA PREDICCION NORMAL.
          */
         ArrayList<Ocurrencia> arr = new ArrayList();
         String[] palabras = texto.split("\\s+");
@@ -115,10 +125,12 @@ public class Predictor {
                 System.out.println("Semilla usada: " + semilla);
                 for (int z = 0; z < almacenesSemillas[i].get(semilla).getOcurrencias().size(); z++) {
                     arr.add(almacenesSemillas[i].get(semilla).getOcurrencias().get(z));
+                    //if(arr.size()==15){
+                    //return arr;
+                    //}
                 }
             }
         }
-
         return arr;
     }
 }

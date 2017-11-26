@@ -21,16 +21,13 @@ import javax.swing.table.TableColumnModel;
 public class Opciones extends javax.swing.JFrame {
 
     private final DefaultTableModel modelo;
-
     private Predictor predictor;
 
     /**
-     * Creates new form Opciones
-     *
+     * Constructor por defecto
      */
     public Opciones() {
         initComponents();
-
 
         setLocationRelativeTo(null);
 
@@ -45,6 +42,11 @@ public class Opciones extends javax.swing.JFrame {
         cm.getColumn(1).setPreferredWidth(450);
     }
 
+    /**
+     * Busca predicciones de etxto en función de una semilla
+     * @param frase Texto escrito hasa el momento
+     * @return Array con las predicciones
+     */
     public ArrayList<Ocurrencia> hacerPrediccion(String frase) {
         return predictor.enviarPrediccion(frase);
     }
@@ -181,8 +183,11 @@ public class Opciones extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Selecciona un fichero del ordenador y almacena la ruta en la tabla
+     * @param evt Evento del botón
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         FileNameExtensionFilter filter = new FileNameExtensionFilter(".pdf", "pdf", "text");
         JFileChooser chooser = new JFileChooser();
 
@@ -194,11 +199,13 @@ public class Opciones extends javax.swing.JFrame {
 
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             this.nuevaFila("Fichero", chooser.getSelectedFile().toString());
-        } else {
-            System.out.println("No Selection ");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    /**
+     * Selecciona un directorio del ordenador y almacena la ruta en la tabla
+     * @param evt Evento del botón
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         JFileChooser chooser = new JFileChooser();
 
@@ -214,22 +221,32 @@ public class Opciones extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * Elimina una entrada seleccionada de la tabla
+     * @param evt Evento del botón
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         int filaselecionada = jTable1.getSelectedRow();
         if (filaselecionada >= 0) {
             modelo.removeRow(filaselecionada);
-        } else {
-            System.out.println("Error imposible detectado");
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    /**
+     * Crea un JDialog para añadir una url válida a la tabla
+     * @param evt Evento del botón
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         nuevaURL url = new nuevaURL(this, true, this);
         url.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    
+    /**
+     * Extrae el texto de las entradas de la tabla y crea la estructura de datos destinada a la predicción
+     * @param evt Evento del botón
+     */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-
         this.predictor = new Predictor((int) this.jtSemilla.getValue(), (int) this.jtPrediccion.getValue());
 
         ArrayList<String> ficheros = new ArrayList();
@@ -237,15 +254,12 @@ public class Opciones extends javax.swing.JFrame {
         int index;
 
         for (int i = 0; i < modelo.getRowCount(); i++) {
-
             switch (modelo.getValueAt(i, 0).toString()) {
-
                 case "Fichero":
                     if (!ficheros.contains(modelo.getValueAt(i, 1).toString())) {
                         ficheros.add(modelo.getValueAt(i, 1).toString());
                     }
                     break;
-
                 case "Directorio":
                     File f = new File(modelo.getValueAt(i, 1).toString());
                     if (f.exists()) {
@@ -262,24 +276,29 @@ public class Opciones extends javax.swing.JFrame {
                         }
                     }
                     break;
-
                 case "URL":
                     urls.add(modelo.getValueAt(i, 1).toString());
                     break;
             }
-
         }
-
         extraerPalabrasFichero(ficheros);
     }//GEN-LAST:event_jButton5ActionPerformed
 
-
+    /**
+     * Extrae el texto de los ficheros de un array
+     * @param ficheros Array con los ficheros pdf
+     */
     private void extraerPalabrasFichero(ArrayList<String> ficheros) {
         if (!ficheros.isEmpty()) {
-            predictor.insertarTexto(ficheros,jProgressBar1);
+            predictor.insertarTexto(ficheros, jProgressBar1);
         }
     }
 
+    /**
+     * Añade una fila a la abla 
+     * @param tipo "fichero" o "directorio"
+     * @param ruta Ruta del documento
+     */
     public void nuevaFila(String tipo, String ruta) {
         String[] datos = new String[2];
         datos[0] = tipo;
@@ -287,6 +306,10 @@ public class Opciones extends javax.swing.JFrame {
         modelo.addRow(datos);
     }
 
+    /**
+     * Devuelve el valor del tamaño de la semilla seleccionado pro el usuario
+     * @return Valor del tamaño de la semilla
+     */
     public int tamSemilla() {
         return (int) this.jtSemilla.getValue();
     }

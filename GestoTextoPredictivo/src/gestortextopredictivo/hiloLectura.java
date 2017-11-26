@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gestortextopredictivo;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +20,15 @@ public class hiloLectura implements Runnable {
     private final Map<String, Predicciones>[] almacenesSemillas;
     private final javax.swing.JProgressBar jProgressBar1;
 
+    /**
+     * Constructor parametrizado 
+     * @param ficheros Array con los ficheros
+     * @param urls Array con las urls
+     * @param tamSemilla Tamaño de la semilla máxima
+     * @param tamPrediccion Tamaño de la predicción
+     * @param almacenesSemillas Estructura de almacenamiento de las predicciones
+     * @param jProgressBar1 Barra de progreso de la lectura.
+     */
     public hiloLectura(ArrayList<String> ficheros, ArrayList<String> urls, int tamSemilla, int tamPrediccion,
             Map<String, Predicciones>[] almacenesSemillas, javax.swing.JProgressBar jProgressBar1) {
         this.ficheros = ficheros;
@@ -36,6 +39,9 @@ public class hiloLectura implements Runnable {
         this.jProgressBar1 = jProgressBar1;
     }
 
+    /**
+     * Extrae las predicciones de los ficheros/urls y las almacena
+     */
     @Override
     public void run() {
         jProgressBar1.setValue(0);
@@ -56,10 +62,15 @@ public class hiloLectura implements Runnable {
         for (int i = this.tamSemilla; i > 0; i--) {
             almacenesSemillas[i].forEach((k, v) -> Collections.sort(v.getOcurrencias()));
         }
-        
+
         jProgressBar1.setValue(100);
     }
 
+    /**
+     * Extrae las predicciones de un texo y lo almacena en un almacen determinado
+     * @param textoFichero Texto extraido de un fichero
+     * @param almacen Número del almacen
+     */
     private void lecturaFichero(String textoFichero, int almacen) {
         String conjuntoSemilla;
         String conjuntoPrediccion;
@@ -68,9 +79,8 @@ public class hiloLectura implements Runnable {
 
         frases = textoFichero.split("\\.");
 
-        for (int i = 0; i < frases.length; i++) {
-            palabras = frases[i].split("\\s+");
-
+        for (String frase : frases) {
+            palabras = frase.split("\\s+");
             for (int j = 0; j < palabras.length - almacen; j++) { //<--- Antes la primera palabra me la tomaba como "", comprobar
                 if ("".equals(palabras[j])) {
                     //System.out.println("SI ESTO NO SALTA NUNCA, SOBRA");
@@ -98,8 +108,6 @@ public class hiloLectura implements Runnable {
                 }
                 //AQUI INSERTARÉ LA PREDICCION
                 almacenesSemillas[almacen].get(conjuntoSemilla).nuevaPrediccion(conjuntoPrediccion);
-
-                //System.out.println("");
             }
         }
     }
