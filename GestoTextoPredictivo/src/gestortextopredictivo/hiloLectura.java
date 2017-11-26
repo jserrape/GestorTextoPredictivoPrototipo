@@ -7,6 +7,8 @@ package gestortextopredictivo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +26,8 @@ public class hiloLectura implements Runnable {
     private final Map<String, Predicciones>[] almacenesSemillas;
     private final javax.swing.JProgressBar jProgressBar1;
 
-    public hiloLectura(ArrayList<String> ficheros, ArrayList<String> urls, int tamSemilla, int tamPrediccion, Map<String, Predicciones>[] almacenesSemillas, javax.swing.JProgressBar jProgressBar1) {
+    public hiloLectura(ArrayList<String> ficheros, ArrayList<String> urls, int tamSemilla, int tamPrediccion,
+            Map<String, Predicciones>[] almacenesSemillas, javax.swing.JProgressBar jProgressBar1) {
         this.ficheros = ficheros;
         this.urls = urls;
         this.tamSemilla = tamSemilla;
@@ -36,8 +39,8 @@ public class hiloLectura implements Runnable {
     @Override
     public void run() {
         jProgressBar1.setValue(0);
-        int cont=100/ficheros.size();
-        lecturaInfo lectura = new lecturaInfo();
+        int cont = 95 / ficheros.size();
+        lecturaDatos lectura = new lecturaDatos();
         for (int x = 0; x < ficheros.size(); x++) {
             try {
                 for (int i = 1; i < tamSemilla + 1; i++) {
@@ -46,9 +49,14 @@ public class hiloLectura implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(Opciones.class.getName()).log(Level.SEVERE, null, ex);
             }
-            jProgressBar1.setValue(jProgressBar1.getValue()+cont);
+            jProgressBar1.setValue(jProgressBar1.getValue() + cont);
         }
-        System.out.println("Fin del hilo");
+        jProgressBar1.setValue(95);
+
+        for (int i = this.tamSemilla; i > 0; i--) {
+            almacenesSemillas[i].forEach((k, v) -> Collections.sort(v.getOcurrencias()));
+        }
+        
         jProgressBar1.setValue(100);
     }
 
@@ -65,7 +73,8 @@ public class hiloLectura implements Runnable {
 
             for (int j = 0; j < palabras.length - almacen; j++) { //<--- Antes la primera palabra me la tomaba como "", comprobar
                 if ("".equals(palabras[j])) {
-                    //continue;
+                    //System.out.println("SI ESTO NO SALTA NUNCA, SOBRA");
+                    continue;
                 }
                 conjuntoSemilla = "";
                 conjuntoPrediccion = "";
@@ -93,7 +102,6 @@ public class hiloLectura implements Runnable {
                 //System.out.println("");
             }
         }
-        //consola.escribir("    - Detectadas " + almacenesSemillas[almacen].size() + " palabras.");
     }
 
 }

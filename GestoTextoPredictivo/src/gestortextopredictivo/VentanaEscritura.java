@@ -8,14 +8,14 @@ package gestortextopredictivo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import javax.swing.JTextField;
 
 /**
  *
  * @author jcsp0003
  */
 public class VentanaEscritura extends javax.swing.JFrame {
-
-    private final Consola consola;
+    
     private final Opciones opciones;
 
     /**
@@ -24,40 +24,20 @@ public class VentanaEscritura extends javax.swing.JFrame {
     public VentanaEscritura() {
         initComponents();
 
-        this.consola = new Consola();
-        consola.setVisible(true);
-
-        this.opciones = new Opciones(consola);
+        this.opciones = new Opciones();
         opciones.setVisible(true);
         opciones.setResizable(false);
-        
-        this.jTextField1.addKeyListener(new KeyListener(){
 
-            @Override
-            public void keyTyped(KeyEvent e) {
-                
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (Character.isSpaceChar(e.getKeyChar())){
-                    hacerPrediccion();
-                }
-            }
-        });
+        this.jTextField1.addKeyListener(new KeyListenerImpl(jTextField1));
     }
 
     private void hacerPrediccion() {
         this.jTextArea1.setText("");
         ArrayList<Ocurrencia> predicciones = this.opciones.hacerPrediccion(this.jTextField1.getText()); //Envia todo el texto, habria que enviar menos....
-        for(int i=0;i<predicciones.size();i++){
-            this.jTextArea1.append(i+1+": "+predicciones.get(i).getPrediccion()+"  -  "+predicciones.get(i).getN()+"\n");
+        for (int i = 0; i < predicciones.size(); i++) {
+            this.jTextArea1.append(i + 1 + ": " + predicciones.get(i).getPrediccion() + "  -  " + predicciones.get(i).getN() + "\n");
         }
+        jTextArea1.setCaretPosition(0);
     }
 
     @SuppressWarnings("unchecked")
@@ -78,6 +58,7 @@ public class VentanaEscritura extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setAutoscrolls(false);
         jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -115,4 +96,34 @@ public class VentanaEscritura extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    private class KeyListenerImpl implements KeyListener {
+
+        public KeyListenerImpl() {
+        }
+        private javax.swing.JTextField jTextField1;
+
+        private KeyListenerImpl(JTextField jTextField1) {
+            this.jTextField1 = jTextField1;
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) { //CAMBIAR: si hay texto y borro, la prediccion sigue
+            //if (Character.isSpaceChar(e.getKeyChar())){
+            if (!"".equals(jTextField1.getText())) {
+                hacerPrediccion();
+            }
+            //}
+        }
+    }
 }

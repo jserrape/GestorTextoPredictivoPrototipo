@@ -39,7 +39,7 @@ public class Predictor {
         th.start();
     }
 
-    public void insertarTextoAlmacen(String textoFichero, Consola consola, int almacen) {
+    public void insertarTextoAlmacen(String textoFichero, int almacen) {
         String conjuntoSemilla;
         String conjuntoPrediccion;
         String[] frases, palabras;
@@ -80,10 +80,13 @@ public class Predictor {
                 //System.out.println("");
             }
         }
-        consola.escribir("    - Detectadas " + almacenesSemillas[almacen].size() + " palabras.");
     }
 
     public ArrayList<Ocurrencia> enviarPrediccion(String texto) {
+        /**
+         * AQUI DEBERIA MIRAR LA FRASE Y SI EL ULTIMO CARACTER NO ES " " SIGIFICA QUE LA ULTIMA PALABRA NO ESTA ACABADA
+         * PRO LO QUE TENDRIA QUE COMPLETARLA Y DESPUÉS HACER LA PREDICCION NORMAL.
+         */
         ArrayList<Ocurrencia> arr = new ArrayList();
         String[] palabras = texto.split("\\s+");
         int limite;
@@ -112,21 +115,10 @@ public class Predictor {
                 System.out.println("Semilla usada: " + semilla);
                 for (int z = 0; z < almacenesSemillas[i].get(semilla).getOcurrencias().size(); z++) {
                     arr.add(almacenesSemillas[i].get(semilla).getOcurrencias().get(z));
-                    if (arr.size() == 10) { //LIMITADO A 10 SUGERENCIAS
-                        return arr;
-                    }
                 }
             }
         }
 
         return arr;
     }
-
-    public void reordenar() {
-        QuickSort qui = new QuickSort();
-        for (int i = this.tamSemilla; i > 0; i--) {
-            almacenesSemillas[i].forEach((k, v) -> qui.sort(v.getOcurrencias()));
-        }
-    }
-
 }

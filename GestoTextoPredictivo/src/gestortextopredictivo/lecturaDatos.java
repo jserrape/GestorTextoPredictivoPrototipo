@@ -21,11 +21,7 @@ import org.jsoup.Jsoup;
  *
  * @author jcsp0003
  */
-public class lecturaInfo {
-
-    public lecturaInfo() {
-
-    }
+public class lecturaDatos {
 
     public String lectura(String tipo, String path) throws IOException {
         if ("pdf".equals(tipo)) {
@@ -37,21 +33,20 @@ public class lecturaInfo {
 
     private String nuevoPDF(String filePath) throws IOException {
         File file = new File(filePath);
-        PDFParser parser = new PDFParser(new RandomAccessFile(file, "r")); // update for PDFBox V 2.0
+        PDFParser parser = new PDFParser(new RandomAccessFile(file, "r"));
 
         parser.parse();
-        COSDocument cosDoc = parser.getDocument();
-        PDFTextStripper pdfStripper = new PDFTextStripper();
-        PDDocument pdDoc = new PDDocument(cosDoc);
-        pdDoc.getNumberOfPages();
-        //pdfStripper.setStartPage(1);
-        //pdfStripper.setEndPage(10);
+        String tx;
+        try (COSDocument cosDoc = parser.getDocument()) {
+            PDFTextStripper pdfStripper = new PDFTextStripper();
+            PDDocument pdDoc = new PDDocument(cosDoc);
+            pdDoc.getNumberOfPages();
 
-        // reading text from page 1 to 10
-        // if you want to get text from full pdf file use this code
-        pdfStripper.setEndPage(pdDoc.getNumberOfPages());
-        //System.out.println(pdfStripper.getText(pdDoc));
-        return pdfStripper.getText(pdDoc);
+            pdfStripper.setEndPage(pdDoc.getNumberOfPages());
+
+            tx = pdfStripper.getText(pdDoc);
+        }
+        return tx;
     }
 
     private String nuevaURL(String urlPath) throws IOException {
