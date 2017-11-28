@@ -27,15 +27,24 @@ public class VentanaEscritura extends javax.swing.JFrame {
     }
 
     /**
-     * Funcion para realizar una prediccion en base al etxto escrito
+     * Realiza una prediccion en base al etxto escrito
      */
     private void hacerPrediccion() {
         this.jTextArea1.setText("");
-        ArrayList<Ocurrencia> predicciones = this.opciones.hacerPrediccion(this.jTextField1.getText()); //Envia todo el texto, habria que enviar menos....
+
+        ArrayList<Ocurrencia> predicciones = this.opciones.hacerPrediccion(this.jTextField1.getText(),
+                this.jTextField1.getText().charAt(this.jTextField1.getText().length()-1)==' '); //Envia todo el texto, habria que enviar menos....
         for (int i = 0; i < predicciones.size(); i++) {
             this.jTextArea1.append(i + 1 + ": " + predicciones.get(i).getPrediccion() + "  -  " + predicciones.get(i).getN() + "\n");
         }
         jTextArea1.setCaretPosition(0);
+    }
+    
+    /**
+     * Borra el contenido del jTextArea1
+     */
+    private void reiniciar(){
+        this.jTextArea1.setText("");
     }
 
     @SuppressWarnings("unchecked")
@@ -133,11 +142,11 @@ public class VentanaEscritura extends javax.swing.JFrame {
          */
         @Override
         public void keyReleased(KeyEvent e) { //CAMBIAR: si hay texto y borro, la prediccion sigue
-            //if (Character.isSpaceChar(e.getKeyChar())){
-            if (!"".equals(jTextField1.getText())) {
+            if (!"".equals(jTextField1.getText().replaceAll(" ", ""))) {
                 hacerPrediccion();
+            }else{
+                reiniciar();
             }
-            //}
         }
     }
 }

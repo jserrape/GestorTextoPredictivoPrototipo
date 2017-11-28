@@ -45,10 +45,11 @@ public class Opciones extends javax.swing.JFrame {
     /**
      * Busca predicciones de etxto en función de una semilla
      * @param frase Texto escrito hasa el momento
+     * @param completada Valor que indica si la última palabra de la semilla ha sido terminada de escribir
      * @return Array con las predicciones
      */
-    public ArrayList<Ocurrencia> hacerPrediccion(String frase) {
-        return predictor.enviarPrediccion(frase);
+    public ArrayList<Ocurrencia> hacerPrediccion(String frase,boolean completada) {
+        return predictor.enviarPrediccion(frase,completada);
     }
 
     @SuppressWarnings("unchecked")

@@ -16,13 +16,13 @@ public class Predictor {
     private final Map<String, Predicciones>[] almacenesSemillas;
 
     /**
-     * 
-     * @param tamSemillaa
-     * @param tamPrediccionn 
+     * Constructor parametrizado
+     * @param tamSemilla Tamaño máximo de la semilla
+     * @param tamPrediccion Tamaño de la predicción 
      */
-    public Predictor(int tamSemillaa, int tamPrediccionn) {
-        this.tamSemilla = tamSemillaa;
-        this.tamPrediccion = tamPrediccionn;
+    public Predictor(int tamSemilla, int tamPrediccion) {
+        this.tamSemilla = tamSemilla;
+        this.tamPrediccion = tamPrediccion;
 
         this.almacenesSemillas = new Map[tamSemilla + 1];
         for (int i = 1; i < tamSemilla + 1; i++) {
@@ -31,11 +31,11 @@ public class Predictor {
     }
 
     /**
-     * 
-     * @param ficheros
-     * @param jProgressBar1 
+     * Crea un hilo para la lectura de los ficheros y las urls
+     * @param ficheros Array con las direcciones de los distinos ficheros pdf
+     * @param jProgressBar1 Barra de progreso
      */
-    public void insertarTexto(ArrayList<String> ficheros, javax.swing.JProgressBar jProgressBar1) {
+    public void insertarTexto(ArrayList<String> ficheros, javax.swing.JProgressBar jProgressBar1) { //AÑADIR AQUI LA URL TAMBIEN
         hiloLectura hiloLec = new hiloLectura(ficheros, ficheros, tamSemilla, tamPrediccion, almacenesSemillas, jProgressBar1); //CAMBIAR Y ENVIAR EL DE URLS
         Thread th = new Thread(hiloLec);
         th.start();
@@ -44,7 +44,7 @@ public class Predictor {
     /**
      * 
      * @param textoFichero
-     * @param almacen 
+     * @param almacen
      */
     public void insertarTextoAlmacen(String textoFichero, int almacen) {
         String conjuntoSemilla;
@@ -87,50 +87,77 @@ public class Predictor {
     }
 
     /**
-     * 
+     *
      * @param texto
-     * @return 
+     * @param completa Valor que indica si la última palabra de la semilla ha
+     * sido terminada de escribir
+     * @return
      */
-    public ArrayList<Ocurrencia> enviarPrediccion(String texto) {
-        /**
-         * AQUI DEBERIA MIRAR LA FRASE Y SI EL ULTIMO CARACTER NO ES " "
-         * SIGIFICA QUE LA ULTIMA PALABRA NO ESTA ACABADA PRO LO QUE TENDRIA QUE
-         * COMPLETARLA Y DESPUÉS HACER LA PREDICCION NORMAL.
-         */
-        ArrayList<Ocurrencia> arr = new ArrayList();
-        String[] palabras = texto.split("\\s+");
-        int limite;
-        String semilla;
+    public ArrayList<Ocurrencia> enviarPrediccion(String texto, boolean completa) {
+        if (completa) {
+            ArrayList<Ocurrencia> arr = new ArrayList();
+            String[] palabras = texto.split("\\s+");
+            int limite;
+            String semilla;
 
-        for (int i = this.tamSemilla; i > 0; i--) {
-            limite = 0;
-            semilla = "";
-            for (int j = palabras.length - 1; j >= 0; j--) {
-                if (!"".equals(palabras[j])) {
-                    semilla = palabras[j] + " " + semilla;
-                    ++limite;
-                    if (limite == i) {
-                        if ("".equals(semilla)) {
-                            return new ArrayList();
+            for (int i = this.tamSemilla; i > 0; i--) {
+                arr.add(new Ocurrencia("---------Semilla tamaño: " + i + "  -----------"));
+                limite = 0;
+                semilla = "";
+                for (int j = palabras.length - 1; j >= 0; j--) {
+                        semilla = palabras[j] + " " + semilla;
+                        ++limite;
+                        if (limite == i) {
+                            if ("".equals(semilla)) {
+                                return new ArrayList();
+                            }
+                            break;
                         }
-                        break;
-                    }
-                } else {
-                    System.out.println("SI ESTO NO SALTA NUNCA, ES QUE ES INNECESARIO EL IF");
                 }
-            }
-            semilla = semilla.substring(0, semilla.length() - 1);
+                semilla = semilla.substring(0, semilla.length() - 1);
 
-            if (almacenesSemillas[i].containsKey(semilla)) {
-                System.out.println("Semilla usada: " + semilla);
-                for (int z = 0; z < almacenesSemillas[i].get(semilla).getOcurrencias().size(); z++) {
-                    arr.add(almacenesSemillas[i].get(semilla).getOcurrencias().get(z));
-                    //if(arr.size()==15){
-                    //return arr;
-                    //}
+                if (almacenesSemillas[i].containsKey(semilla)) {
+                    for (int z = 0; z < almacenesSemillas[i].get(semilla).getOcurrencias().size(); z++) {
+                        arr.add(almacenesSemillas[i].get(semilla).getOcurrencias().get(z));
+                        //if(arr.size()==15){
+                        //return arr;
+                        //}
+                    }
                 }
             }
+            return arr;
+        } else {
+            ArrayList<Ocurrencia> arr = new ArrayList();
+            String[] palabras = texto.split("\\s+");
+            int limite;
+            String semillaBase, semillaInacabada;
+            for (int i = this.tamSemilla; i > 0; i--) {
+                arr.add(new Ocurrencia("---------Semilla tamaño: " + i + "  -----------"));
+                limite = 0;
+                semillaBase = "";
+                semillaInacabada=palabras[palabras.length-1];
+                for (int j = palabras.length - 2; j >= 0; j--) {
+                        semillaBase = palabras[j] + " " + semillaBase;
+                        ++limite;
+                        if (limite == i) {
+                            if ("".equals(semillaBase)) {
+                                return new ArrayList();
+                            }
+                            break;
+                        }
+                }
+                if (!"".equals(semillaBase)) { // Situación semillaBase no nula
+                    semillaBase = semillaBase.substring(0, semillaBase.length() - 1);
+                    if (almacenesSemillas[i].containsKey(semillaBase)) {
+                        for (int j = 0; j < almacenesSemillas[i].get(semillaBase).getOcurrencias().size(); j++) {
+                            if (almacenesSemillas[i].get(semillaBase).getOcurrencias().get(j).getPrediccion().indexOf(semillaInacabada) == 0) {
+                                arr.add(almacenesSemillas[i].get(semillaBase).getOcurrencias().get(j));
+                            }
+                        }
+                    }
+                }
+            }
+            return arr;
         }
-        return arr;
     }
 }

@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package gestortextopredictivo;
 
 import java.io.BufferedReader;
@@ -20,10 +25,10 @@ public class lecturaDatos {
 
     /**
      * 
-     * @param tipo
-     * @param path
-     * @return
-     * @throws IOException 
+     * @param tipo Identifica si se trata de una url o un pdf
+     * @param path Ruta del fichero y url
+     * @return Texto del documento
+     * @throws IOException Excepción en caso de error en el fichero
      */
     public String lectura(String tipo, String path) throws IOException {
         if ("pdf".equals(tipo)) {
@@ -35,9 +40,9 @@ public class lecturaDatos {
 
     /**
      * 
-     * @param filePath
-     * @return
-     * @throws IOException 
+     * @param filePath Ruta del fichero
+     * @return Texto del documento
+     * @throws IOException Excepción en caso de error en el fichero
      */
     private String nuevoPDF(String filePath) throws IOException {
         File file = new File(filePath);
@@ -59,9 +64,9 @@ public class lecturaDatos {
 
     /**
      * 
-     * @param urlPath
-     * @return
-     * @throws IOException 
+     * @param urlPath Ruta dela url
+     * @return Texto del documento
+     * @throws IOException Excepción en la lectura
      */
     private String nuevaURL(String urlPath) throws IOException {
         String line, all = "";
