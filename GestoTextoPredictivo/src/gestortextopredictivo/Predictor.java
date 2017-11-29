@@ -13,12 +13,13 @@ public class Predictor {
     private final int tamSemilla;
     private final int tamPrediccion;
 
-    private final Map<String, Predicciones>[] almacenesSemillas;
+    private final Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas;
 
     /**
      * Constructor parametrizado
+     *
      * @param tamSemilla Tamaño máximo de la semilla
-     * @param tamPrediccion Tamaño de la predicción 
+     * @param tamPrediccion Tamaño de la predicción
      */
     public Predictor(int tamSemilla, int tamPrediccion) {
         this.tamSemilla = tamSemilla;
@@ -32,6 +33,7 @@ public class Predictor {
 
     /**
      * Crea un hilo para la lectura de los ficheros y las urls
+     *
      * @param ficheros Array con las direcciones de los distinos ficheros pdf
      * @param jProgressBar1 Barra de progreso
      */
@@ -42,7 +44,7 @@ public class Predictor {
     }
 
     /**
-     * 
+     *
      * @param textoFichero
      * @param almacen
      */
@@ -78,10 +80,10 @@ public class Predictor {
                 conjuntoPrediccion = conjuntoPrediccion.substring(1, conjuntoPrediccion.length());
 
                 if (!almacenesSemillas[almacen].containsKey(conjuntoSemilla)) { //Si no esta la semilla la creo vacia, para despues insertar la prediccion
-                    almacenesSemillas[almacen].put(conjuntoSemilla, new Predicciones());
+                    almacenesSemillas[almacen].put(conjuntoSemilla, new ArrayList());
                 }
                 //AQUI INSERTARÉ LA PREDICCION
-                almacenesSemillas[almacen].get(conjuntoSemilla).nuevaPrediccion(conjuntoPrediccion);
+                nuevaPrediccion(almacenesSemillas[almacen].get(conjuntoSemilla), conjuntoPrediccion);
             }
         }
     }
@@ -105,20 +107,20 @@ public class Predictor {
                 limite = 0;
                 semilla = "";
                 for (int j = palabras.length - 1; j >= 0; j--) {
-                        semilla = palabras[j] + " " + semilla;
-                        ++limite;
-                        if (limite == i) {
-                            if ("".equals(semilla)) {
-                                return new ArrayList();
-                            }
-                            break;
+                    semilla = palabras[j] + " " + semilla;
+                    ++limite;
+                    if (limite == i) {
+                        if ("".equals(semilla)) {
+                            return new ArrayList();
                         }
+                        break;
+                    }
                 }
                 semilla = semilla.substring(0, semilla.length() - 1);
 
                 if (almacenesSemillas[i].containsKey(semilla)) {
-                    for (int z = 0; z < almacenesSemillas[i].get(semilla).getOcurrencias().size(); z++) {
-                        arr.add(almacenesSemillas[i].get(semilla).getOcurrencias().get(z));
+                    for (int z = 0; z < almacenesSemillas[i].get(semilla).size(); z++) {
+                        arr.add(almacenesSemillas[i].get(semilla).get(z));
                         //if(arr.size()==15){
                         //return arr;
                         //}
@@ -135,23 +137,23 @@ public class Predictor {
                 arr.add(new Ocurrencia("---------Semilla tamaño: " + i + "  -----------"));
                 limite = 0;
                 semillaBase = "";
-                semillaInacabada=palabras[palabras.length-1];
+                semillaInacabada = palabras[palabras.length - 1];
                 for (int j = palabras.length - 2; j >= 0; j--) {
-                        semillaBase = palabras[j] + " " + semillaBase;
-                        ++limite;
-                        if (limite == i) {
-                            if ("".equals(semillaBase)) {
-                                return new ArrayList();
-                            }
-                            break;
+                    semillaBase = palabras[j] + " " + semillaBase;
+                    ++limite;
+                    if (limite == i) {
+                        if ("".equals(semillaBase)) {
+                            return new ArrayList();
                         }
+                        break;
+                    }
                 }
                 if (!"".equals(semillaBase)) { // Situación semillaBase no nula
                     semillaBase = semillaBase.substring(0, semillaBase.length() - 1);
                     if (almacenesSemillas[i].containsKey(semillaBase)) {
-                        for (int j = 0; j < almacenesSemillas[i].get(semillaBase).getOcurrencias().size(); j++) {
-                            if (almacenesSemillas[i].get(semillaBase).getOcurrencias().get(j).getPrediccion().indexOf(semillaInacabada) == 0) {
-                                arr.add(almacenesSemillas[i].get(semillaBase).getOcurrencias().get(j));
+                        for (int j = 0; j < almacenesSemillas[i].get(semillaBase).size(); j++) {
+                            if (almacenesSemillas[i].get(semillaBase).get(j).getPrediccion().indexOf(semillaInacabada) == 0) {
+                                arr.add(almacenesSemillas[i].get(semillaBase).get(j));
                             }
                         }
                     }
@@ -159,5 +161,21 @@ public class Predictor {
             }
             return arr;
         }
+    }
+
+    /**
+     * Crea una nueva prediccion
+     *
+     * @param arr
+     * @param pred Texto de la prediccion
+     */
+    public void nuevaPrediccion(ArrayList<Ocurrencia> arr, String pred) {
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr.get(i).getPrediccion().equals(pred)) {
+                arr.get(i).nuevaOcurrencia();
+                return;
+            }
+        }
+        arr.add(new Ocurrencia(pred));
     }
 }

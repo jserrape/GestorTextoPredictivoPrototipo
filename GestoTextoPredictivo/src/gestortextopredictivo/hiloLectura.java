@@ -17,11 +17,12 @@ public class hiloLectura implements Runnable {
     private final ArrayList<String> urls;
     private final int tamSemilla;
     private final int tamPrediccion;
-    private final Map<String, Predicciones>[] almacenesSemillas;
+    private final Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas;
     private final javax.swing.JProgressBar jProgressBar1;
 
     /**
-     * Constructor parametrizado 
+     * Constructor parametrizado
+     *
      * @param ficheros Array con los ficheros
      * @param urls Array con las urls
      * @param tamSemilla Tamaño de la semilla máxima
@@ -30,7 +31,7 @@ public class hiloLectura implements Runnable {
      * @param jProgressBar1 Barra de progreso de la lectura.
      */
     public hiloLectura(ArrayList<String> ficheros, ArrayList<String> urls, int tamSemilla, int tamPrediccion,
-            Map<String, Predicciones>[] almacenesSemillas, javax.swing.JProgressBar jProgressBar1) {
+            Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas, javax.swing.JProgressBar jProgressBar1) {
         this.ficheros = ficheros;
         this.urls = urls;
         this.tamSemilla = tamSemilla;
@@ -60,14 +61,16 @@ public class hiloLectura implements Runnable {
         jProgressBar1.setValue(95);
 
         for (int i = this.tamSemilla; i > 0; i--) {
-            almacenesSemillas[i].forEach((k, v) -> Collections.sort(v.getOcurrencias()));
+            almacenesSemillas[i].forEach((k, v) -> Collections.sort(v));
         }
 
         jProgressBar1.setValue(100);
     }
 
     /**
-     * Extrae las predicciones de un texo y lo almacena en un almacen determinado
+     * Extrae las predicciones de un texo y lo almacena en un almacen
+     * determinado
+     *
      * @param textoFichero Texto extraido de un fichero
      * @param almacen Número del almacen
      */
@@ -104,12 +107,28 @@ public class hiloLectura implements Runnable {
                 conjuntoPrediccion = conjuntoPrediccion.substring(1, conjuntoPrediccion.length());
 
                 if (!almacenesSemillas[almacen].containsKey(conjuntoSemilla)) { //Si no esta la semilla la creo vacia, para despues insertar la prediccion
-                    almacenesSemillas[almacen].put(conjuntoSemilla, new Predicciones());
+                    almacenesSemillas[almacen].put(conjuntoSemilla, new ArrayList());
                 }
                 //AQUI INSERTARÉ LA PREDICCION
-                almacenesSemillas[almacen].get(conjuntoSemilla).nuevaPrediccion(conjuntoPrediccion);
+                nuevaPrediccion(almacenesSemillas[almacen].get(conjuntoSemilla), conjuntoPrediccion);
             }
         }
+    }
+
+    /**
+     * Crea una nueva prediccion
+     *
+     * @param arr
+     * @param pred Texto de la prediccion
+     */
+    public void nuevaPrediccion(ArrayList<Ocurrencia> arr, String pred) {
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr.get(i).getPrediccion().equals(pred)) {
+                arr.get(i).nuevaOcurrencia();
+                return;
+            }
+        }
+        arr.add(new Ocurrencia(pred));
     }
 
 }
