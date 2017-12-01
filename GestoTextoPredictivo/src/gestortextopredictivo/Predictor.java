@@ -35,10 +35,11 @@ public class Predictor {
      * Crea un hilo para la lectura de los ficheros y las urls
      *
      * @param ficheros Array con las direcciones de los distinos ficheros pdf
+     * @param urls
      * @param jProgressBar1 Barra de progreso
      */
-    public void insertarTexto(ArrayList<String> ficheros, javax.swing.JProgressBar jProgressBar1) { //AÑADIR AQUI LA URL TAMBIEN
-        hiloLectura hiloLec = new hiloLectura(ficheros, ficheros, tamSemilla, tamPrediccion, almacenesSemillas, jProgressBar1); //CAMBIAR Y ENVIAR EL DE URLS
+    public void insertarTexto(ArrayList<String> ficheros,ArrayList<String> urls, javax.swing.JProgressBar jProgressBar1) { //AÑADIR AQUI LA URL TAMBIEN
+        hiloLectura hiloLec = new hiloLectura(ficheros, urls, tamSemilla, tamPrediccion, almacenesSemillas, jProgressBar1); //CAMBIAR Y ENVIAR EL DE URLS
         Thread th = new Thread(hiloLec);
         th.start();
     }

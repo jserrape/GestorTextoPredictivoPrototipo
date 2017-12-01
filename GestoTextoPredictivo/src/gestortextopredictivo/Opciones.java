@@ -282,16 +282,16 @@ public class Opciones extends javax.swing.JFrame {
                     break;
             }
         }
-        extraerPalabrasFichero(ficheros);
+        extraerPalabrasFichero(ficheros,urls);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * Extrae el texto de los ficheros de un array
      * @param ficheros Array con los ficheros pdf
      */
-    private void extraerPalabrasFichero(ArrayList<String> ficheros) {
-        if (!ficheros.isEmpty()) {
-            predictor.insertarTexto(ficheros, jProgressBar1);
+    private void extraerPalabrasFichero(ArrayList<String> ficheros,ArrayList<String> urls) {
+        if (!ficheros.isEmpty() || !urls.isEmpty()) {
+            predictor.insertarTexto(ficheros,urls, jProgressBar1);
         }
     }
 

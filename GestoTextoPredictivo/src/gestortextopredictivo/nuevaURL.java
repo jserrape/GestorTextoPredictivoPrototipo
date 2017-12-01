@@ -175,11 +175,13 @@ public class nuevaURL extends javax.swing.JDialog {
             UrlValidator validar = new UrlValidator();
             this.jTextField.setText(this.jTextField.getText().replaceAll("\\s", ""));
 
+            /*
             if (validar.isValid(this.jTextField.getText())) {
                 this.jButton.setEnabled(true);
             } else {
                 this.jButton.setEnabled(false);
-            }
+            }*/
+            this.jButton.setEnabled(true);
         }
     }
 }
