@@ -50,7 +50,7 @@ public class hiloLectura implements Runnable {
         lecturaDatos lectura = new lecturaDatos();
         
         //Lectura de los ficheros pdf
-        /*for (int x = 0; x < ficheros.size(); x++) {
+        for (int x = 0; x < ficheros.size(); x++) {
             try {
                 for (int i = 1; i < tamSemilla + 1; i++) {
                     lecturaFichero(lectura.lectura("pdf", ficheros.get(x)), i);
@@ -59,7 +59,7 @@ public class hiloLectura implements Runnable {
                 Logger.getLogger(Opciones.class.getName()).log(Level.SEVERE, null, ex);
             }
             jProgressBar1.setValue(jProgressBar1.getValue() + cont);
-        }*/
+        }
         
         //Lectura de las urls
         for (int x = 0; x < urls.size(); x++) {
