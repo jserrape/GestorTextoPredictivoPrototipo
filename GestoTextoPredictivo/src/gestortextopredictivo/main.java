@@ -6,6 +6,7 @@
 package gestortextopredictivo;
 
 import java.io.IOException;
+import javax.swing.text.BadLocationException;
 
 /**
  *
@@ -17,8 +18,11 @@ public class main {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException {
-        VentanaEscritura ventana = new VentanaEscritura();
+    public static void main(String[] args) throws IOException, BadLocationException {
+        //VentanaEscritura ventana = new VentanaEscritura();
+        //ventana.setVisible(true);
+        
+        Interfaz ventana = new Interfaz();
         ventana.setVisible(true);
     }
 
