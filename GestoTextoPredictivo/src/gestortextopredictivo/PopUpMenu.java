@@ -5,10 +5,13 @@
  */
 package gestortextopredictivo;
 
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -40,7 +43,11 @@ public class PopUpMenu {
             public void actionPerformed(ActionEvent e) {
             }
         });
-
+        
+        //Font font = new Font("Andalus", Font.PLAIN, 20);
+        //jt.setFont(font);
+        
+        
         jt.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -52,7 +59,7 @@ public class PopUpMenu {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                Pmenu.show(e.getComponent(), 80, 80);
+                //Pmenu.show(e.getComponent(), 80, 80);
             }
 
         });
