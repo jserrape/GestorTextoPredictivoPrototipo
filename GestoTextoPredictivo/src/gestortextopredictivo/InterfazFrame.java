@@ -24,6 +24,7 @@ public class InterfazFrame extends javax.swing.JFrame {
      */
     public InterfazFrame() throws BadLocationException {
         initComponents();
+        setLocationRelativeTo(null);
         
         font = new Font("Andalus", Font.PLAIN, 20);
         pop = new PopUpMenu(this.jTextArea1, font);

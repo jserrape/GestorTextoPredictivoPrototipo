@@ -23,28 +23,31 @@ import javax.swing.JTextArea;
 public class PopUpMenu {
 
     private final JPopupMenu Pmenu;
-    private JMenuItem menuItem;
+   
     private final KeyListenerImpl liste;
 
     public PopUpMenu(javax.swing.JTextArea jt, Font font) {
 
+        JMenuItem menuItem;
+        
         Pmenu = new JPopupMenu();
         menuItem = new JMenuItem("Predicción 1");
         Pmenu.add(menuItem);
+        menuItem.addActionListener(new ActionListenerImpl(jt));
         menuItem = new JMenuItem("Predicción 2");
         Pmenu.add(menuItem);
+        menuItem.addActionListener(new ActionListenerImpl(jt));
         menuItem = new JMenuItem("Predicción 3");
         Pmenu.add(menuItem);
+        menuItem.addActionListener(new ActionListenerImpl(jt));
         menuItem = new JMenuItem("Predicción 4");
         Pmenu.add(menuItem);
+        menuItem.addActionListener(new ActionListenerImpl(jt));
         menuItem = new JMenuItem("Predicción 5");
         Pmenu.add(menuItem);
-        menuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-
+        menuItem.addActionListener(new ActionListenerImpl(jt));
+        
+        
         liste = new KeyListenerImpl(jt, font);
         jt.addKeyListener(liste);
     }
@@ -87,6 +90,22 @@ public class PopUpMenu {
             System.out.println(this.jt.getCaretPosition());
             Pmenu.show(e.getComponent(), textwidth, textheight);
             this.jt.requestFocus();
+        }
+    }
+
+    private static class ActionListenerImpl implements ActionListener {
+        
+        private final javax.swing.JTextArea jt;
+
+        public ActionListenerImpl(javax.swing.JTextArea jt) {
+            this.jt=jt;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            StringBuilder sb = new StringBuilder(jt.getText());
+            sb.insert(jt.getCaretPosition(), e.getActionCommand()+" ");
+            jt.setText(sb.toString());
         }
     }
 }

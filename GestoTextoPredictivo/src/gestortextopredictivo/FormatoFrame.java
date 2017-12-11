@@ -30,6 +30,7 @@ public class FormatoFrame extends javax.swing.JDialog {
     public FormatoFrame(java.awt.Frame parent, boolean modal,Font f,InterfazFrame in) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
 
         this.inter=in;
 
