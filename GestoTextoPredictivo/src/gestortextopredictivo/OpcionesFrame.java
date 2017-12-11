@@ -18,7 +18,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author jcsp0003
  */
-public class Opciones extends javax.swing.JFrame {
+public class OpcionesFrame extends javax.swing.JFrame {
 
     private final DefaultTableModel modelo;
     private Predictor predictor;
@@ -26,7 +26,7 @@ public class Opciones extends javax.swing.JFrame {
     /**
      * Constructor por defecto
      */
-    public Opciones() {
+    public OpcionesFrame() {
         initComponents();
 
         setLocationRelativeTo(null);
@@ -238,7 +238,7 @@ public class Opciones extends javax.swing.JFrame {
      * @param evt Evento del botón
      */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        nuevaURL url = new nuevaURL(this, true, this);
+        nuevaURLFrame url = new nuevaURLFrame(this, true, this);
         url.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 

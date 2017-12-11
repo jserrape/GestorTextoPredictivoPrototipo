@@ -9,17 +9,17 @@ import javax.swing.JTextField;
  *
  * @author jcsp0003
  */
-public class VentanaEscritura extends javax.swing.JFrame {
+public class VentanaEscrituraFrame extends javax.swing.JFrame {
 
-    private final Opciones opciones;
+    private final OpcionesFrame opciones;
 
     /**
      * Constructor por defecto
      */
-    public VentanaEscritura() {
+    public VentanaEscrituraFrame() {
         initComponents();
 
-        this.opciones = new Opciones();
+        this.opciones = new OpcionesFrame();
         opciones.setVisible(true);
         opciones.setResizable(false);
 

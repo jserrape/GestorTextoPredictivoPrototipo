@@ -22,7 +22,7 @@ public class main {
         //VentanaEscritura ventana = new VentanaEscritura();
         //ventana.setVisible(true);
         
-        Interfaz ventana = new Interfaz();
+        InterfazFrame ventana = new InterfazFrame();
         ventana.setVisible(true);
     }
 

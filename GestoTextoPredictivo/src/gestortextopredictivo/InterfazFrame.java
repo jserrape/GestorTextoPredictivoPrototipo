@@ -5,25 +5,29 @@
  */
 package gestortextopredictivo;
 
-
+import java.awt.Font;
 import javax.swing.text.BadLocationException;
 
 /**
  *
  * @author jcsp0003
  */
-public class Interfaz extends javax.swing.JFrame {
+public class InterfazFrame extends javax.swing.JFrame {
+    
+    private Font font;
+    private final PopUpMenu pop;
 
     /**
      * Creates new form Interfaz
      *
      * @throws javax.swing.text.BadLocationException
      */
-    public Interfaz() throws BadLocationException {
+    public InterfazFrame() throws BadLocationException {
         initComponents();
- 
-        PopUpMenu pop=new PopUpMenu(this.jTextArea1);
-
+        
+        font = new Font("Andalus", Font.PLAIN, 20);
+        pop = new PopUpMenu(this.jTextArea1, font);
+        this.jTextArea1.setFont(font);
     }
 
     /**
@@ -274,7 +278,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
         // TODO add your handling code here:
-        FormatoFrame ff=new FormatoFrame(this,true);
+        FormatoFrame ff = new FormatoFrame(this, true, font,this);
         ff.setVisible(true);
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
@@ -317,4 +321,12 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
+
+    public void aplicarFormao(Font f) {
+        this.font = f;
+        this.jTextArea1.setFont(font);
+        
+       this.pop.cambiarFuente(f);
+    }
+    
 }

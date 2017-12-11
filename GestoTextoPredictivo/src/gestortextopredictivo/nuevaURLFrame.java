@@ -14,9 +14,9 @@ import org.apache.commons.validator.UrlValidator;
  *
  * @author jcsp0003
  */
-public class nuevaURL extends javax.swing.JDialog {
+public class nuevaURLFrame extends javax.swing.JDialog {
 
-    private final Opciones op;
+    private final OpcionesFrame op;
 
     /**
      * Constructor parametrizado
@@ -25,7 +25,7 @@ public class nuevaURL extends javax.swing.JDialog {
      * @param modal Valor modal
      * @param Opp Objeto padre: Opciones
      */
-    public nuevaURL(java.awt.Frame parent, boolean modal, Opciones Opp) {
+    public nuevaURLFrame(java.awt.Frame parent, boolean modal, OpcionesFrame Opp) {
         super(parent, modal);
         initComponents();
 

@@ -6,15 +6,15 @@
 package gestortextopredictivo;
 
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Arrays;
-import javax.swing.JFrame;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -22,10 +22,11 @@ import javax.swing.JPopupMenu;
  */
 public class PopUpMenu {
 
-    private JPopupMenu Pmenu;
+    private final JPopupMenu Pmenu;
     private JMenuItem menuItem;
+    private final KeyListenerImpl liste;
 
-    public PopUpMenu(javax.swing.JTextArea jt) {
+    public PopUpMenu(javax.swing.JTextArea jt, Font font) {
 
         Pmenu = new JPopupMenu();
         menuItem = new JMenuItem("Predicción 1");
@@ -43,25 +44,49 @@ public class PopUpMenu {
             public void actionPerformed(ActionEvent e) {
             }
         });
-        
-        //Font font = new Font("Andalus", Font.PLAIN, 20);
-        //jt.setFont(font);
-        
-        
-        jt.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
 
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
+        liste = new KeyListenerImpl(jt, font);
+        jt.addKeyListener(liste);
+    }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                //Pmenu.show(e.getComponent(), 80, 80);
-            }
+    public void cambiarFuente(Font f){
+        this.liste.cambiarFuente(f);
+    }
 
-        });
+    private class KeyListenerImpl implements KeyListener {
+
+        private final JTextArea jt;
+        private Font font;
+
+        public KeyListenerImpl(JTextArea jt, Font font) {
+            this.jt = jt;
+            this.font = font;
+        }
+
+        public void cambiarFuente(Font f) {
+            this.font = f;
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            String text = jt.getText();
+
+            AffineTransform affinetransform = new AffineTransform();
+            FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+            int textwidth = (int) (font.getStringBounds(text, frc).getWidth());
+            int textheight = (int) (font.getStringBounds(text, frc).getHeight());
+
+            System.out.println(this.jt.getCaretPosition());
+            Pmenu.show(e.getComponent(), textwidth, textheight);
+            this.jt.requestFocus();
+        }
     }
 }

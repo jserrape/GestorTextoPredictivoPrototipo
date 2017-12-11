@@ -56,7 +56,7 @@ public class hiloLectura implements Runnable {
                     lecturaFichero(lectura.lectura("pdf", ficheros.get(x)), i);
                 }
             } catch (IOException ex) {
-                Logger.getLogger(Opciones.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(OpcionesFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
             jProgressBar1.setValue(jProgressBar1.getValue() + cont);
         }
@@ -68,7 +68,7 @@ public class hiloLectura implements Runnable {
                     lecturaFichero(lectura.lectura("url", urls.get(x)), i);
                 }
             } catch (IOException ex) {
-                Logger.getLogger(Opciones.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(OpcionesFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
             jProgressBar1.setValue(jProgressBar1.getValue() + cont);
         }
