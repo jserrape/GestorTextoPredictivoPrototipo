@@ -1,8 +1,14 @@
 package gestortextopredictivo;
 
+import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -12,7 +18,6 @@ public class Predictor {
 
     private final int tamSemilla;
     private final int tamPrediccion;
-
     private final Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas;
 
     /**
@@ -20,8 +25,10 @@ public class Predictor {
      *
      * @param tamSemilla Tamaño máximo de la semilla
      * @param tamPrediccion Tamaño de la predicción
+     * @param font
+     * @param jt
      */
-    public Predictor(int tamSemilla, int tamPrediccion) {
+    public Predictor(int tamSemilla, int tamPrediccion, Font font, javax.swing.JTextArea jt) {
         this.tamSemilla = tamSemilla;
         this.tamPrediccion = tamPrediccion;
 
@@ -29,6 +36,8 @@ public class Predictor {
         for (int i = 1; i < tamSemilla + 1; i++) {
             almacenesSemillas[i] = new HashMap<>();
         }
+
+        jt.addKeyListener(new KeyListenerImpl(jt, this,new PopUpMenu(jt, font)));
     }
 
     /**
@@ -38,7 +47,7 @@ public class Predictor {
      * @param urls
      * @param jProgressBar1 Barra de progreso
      */
-    public void insertarTexto(ArrayList<String> ficheros,ArrayList<String> urls, javax.swing.JProgressBar jProgressBar1) { //AÑADIR AQUI LA URL TAMBIEN
+    public void insertarTexto(ArrayList<String> ficheros, ArrayList<String> urls, javax.swing.JProgressBar jProgressBar1) { //AÑADIR AQUI LA URL TAMBIEN
         hiloLectura hiloLec = new hiloLectura(ficheros, urls, tamSemilla, tamPrediccion, almacenesSemillas, jProgressBar1); //CAMBIAR Y ENVIAR EL DE URLS
         Thread th = new Thread(hiloLec);
         th.start();
@@ -104,7 +113,7 @@ public class Predictor {
             String semilla;
 
             for (int i = this.tamSemilla; i > 0; i--) {
-                arr.add(new Ocurrencia("---------Semilla tamaño: " + i + "  -----------"));
+                //arr.add(new Ocurrencia("---------Semilla tamaño: " + i + "  -----------"));
                 limite = 0;
                 semilla = "";
                 for (int j = palabras.length - 1; j >= 0; j--) {
@@ -122,9 +131,9 @@ public class Predictor {
                 if (almacenesSemillas[i].containsKey(semilla)) {
                     for (int z = 0; z < almacenesSemillas[i].get(semilla).size(); z++) {
                         arr.add(almacenesSemillas[i].get(semilla).get(z));
-                        //if(arr.size()==15){
-                        //return arr;
-                        //}
+                        if (arr.size() == 10) {
+                            return arr;
+                        }
                     }
                 }
             }
@@ -135,7 +144,7 @@ public class Predictor {
             int limite;
             String semillaBase, semillaInacabada;
             for (int i = this.tamSemilla; i > 0; i--) {
-                arr.add(new Ocurrencia("---------Semilla tamaño: " + i + "  -----------"));
+                //arr.add(new Ocurrencia("---------Semilla tamaño: " + i + "  -----------"));
                 limite = 0;
                 semillaBase = "";
                 semillaInacabada = palabras[palabras.length - 1];
@@ -155,6 +164,9 @@ public class Predictor {
                         for (int j = 0; j < almacenesSemillas[i].get(semillaBase).size(); j++) {
                             if (almacenesSemillas[i].get(semillaBase).get(j).getPrediccion().indexOf(semillaInacabada) == 0) {
                                 arr.add(almacenesSemillas[i].get(semillaBase).get(j));
+                                if (arr.size() == 10) {
+                                    return arr;
+                                }
                             }
                         }
                     }
@@ -178,5 +190,43 @@ public class Predictor {
             }
         }
         arr.add(new Ocurrencia(pred));
+    }
+
+    public void estadisicas() {
+        System.out.println("Estadisticas:");
+        System.out.println("    Tamaño máximo de la semilla: " + this.tamSemilla);
+        System.out.println("    Tamaño de la predicción: " + this.tamPrediccion);
+        System.out.println("    Ocurrencias con semilla 1: " + this.almacenesSemillas[1].size());
+    }
+
+    private class KeyListenerImpl implements KeyListener {
+
+        private final JTextArea jt;
+        private final Predictor predictor;
+        private final PopUpMenu pop;
+        
+        
+        public KeyListenerImpl(JTextArea jt, Predictor pre,PopUpMenu pop) {
+            this.jt = jt;
+            this.predictor = pre;
+            this.pop=pop;
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            ArrayList<Ocurrencia> predicciones = predictor.enviarPrediccion(this.jt.getText(), this.jt.getText().charAt(this.jt.getText().length() - 1) == ' ');
+            for (int i = 0; i < predicciones.size(); i++) {
+                System.out.println(i + 1 + ": " + predicciones.get(i).getPrediccion() + "  -  " + predicciones.get(i).getN());
+            }
+            this.pop.colocar(e.getComponent(),40, 50,predicciones);
+        }
     }
 }

@@ -25,8 +25,27 @@ public class OpcionesFrame extends javax.swing.JFrame {
 
     /**
      * Constructor por defecto
+     * @param predictor
      */
-    public OpcionesFrame() {
+    public OpcionesFrame(Predictor pred) {
+        initComponents();
+
+        setLocationRelativeTo(null);
+        
+        this.predictor=pred;
+
+        modelo = new DefaultTableModel();
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Dirección");
+        this.jTable1.setModel(modelo);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        this.jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        TableColumnModel cm = this.jTable1.getColumnModel();
+        cm.getColumn(1).setPreferredWidth(450);
+    }
+    
+    public OpcionesFrame() { //BORRAR 
         initComponents();
 
         setLocationRelativeTo(null);
@@ -248,7 +267,7 @@ public class OpcionesFrame extends javax.swing.JFrame {
      * @param evt Evento del botón
      */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        this.predictor = new Predictor((int) this.jtSemilla.getValue(), (int) this.jtPrediccion.getValue());
+        //this.predictor = new Predictor((int) this.jtSemilla.getValue(), (int) this.jtPrediccion.getValue());
 
         ArrayList<String> ficheros = new ArrayList();
         ArrayList<String> urls = new ArrayList();

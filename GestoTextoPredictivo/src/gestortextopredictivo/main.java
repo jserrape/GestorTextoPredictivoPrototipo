@@ -19,8 +19,8 @@ public class main {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException, BadLocationException {
-        //VentanaEscritura ventana = new VentanaEscritura();
-        //ventana.setVisible(true);
+        //VentanaEscrituraFrame ventanaa = new VentanaEscrituraFrame();
+        //ventanaa.setVisible(true);
         
         InterfazFrame ventana = new InterfazFrame();
         ventana.setVisible(true);

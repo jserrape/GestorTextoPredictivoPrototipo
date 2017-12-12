@@ -6,6 +6,7 @@
 package gestortextopredictivo;
 
 import java.awt.Font;
+import java.util.ArrayList;
 import javax.swing.text.BadLocationException;
 
 /**
@@ -13,9 +14,9 @@ import javax.swing.text.BadLocationException;
  * @author jcsp0003
  */
 public class InterfazFrame extends javax.swing.JFrame {
-    
+
     private Font font;
-    private final PopUpMenu pop;
+    private final Predictor predictor;
 
     /**
      * Creates new form Interfaz
@@ -25,9 +26,9 @@ public class InterfazFrame extends javax.swing.JFrame {
     public InterfazFrame() throws BadLocationException {
         initComponents();
         setLocationRelativeTo(null);
-        
+
         font = new Font("Andalus", Font.PLAIN, 20);
-        pop = new PopUpMenu(this.jTextArea1, font);
+        predictor = new Predictor(3, 3,font,this.jTextArea1);
         this.jTextArea1.setFont(font);
     }
 
@@ -45,6 +46,7 @@ public class InterfazFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -75,6 +77,7 @@ public class InterfazFrame extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -111,6 +114,17 @@ public class InterfazFrame extends javax.swing.JFrame {
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton4);
+
+        jButton5.setText("Estadisticas");
+        jButton5.setFocusable(false);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton5);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -222,7 +236,15 @@ public class InterfazFrame extends javax.swing.JFrame {
         jMenu3.add(jMenuItem17);
 
         jMenuItem18.setText("Predicción");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem18);
+
+        jMenuItem19.setText("Idioma");
+        jMenu3.add(jMenuItem19);
 
         jMenuBar1.add(jMenu3);
 
@@ -279,16 +301,35 @@ public class InterfazFrame extends javax.swing.JFrame {
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
         // TODO add your handling code here:
-        FormatoFrame ff = new FormatoFrame(this, true, font,this);
+        FormatoFrame ff = new FormatoFrame(this, true, font, this);
         ff.setVisible(true);
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        // TODO add your handling code here:
+        OpcionesFrame op = new OpcionesFrame(predictor);
+        op.setVisible(true);
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        this.predictor.estadisicas();
+        hacerPrediccion();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    public void hacerPrediccion() {
+        ArrayList<Ocurrencia> predicciones = predictor.enviarPrediccion(this.jTextArea1.getText(), this.jTextArea1.getText().charAt(this.jTextArea1.getText().length() - 1) == ' ');
+        for (int i = 0; i < predicciones.size(); i++) {
+            System.out.println(i + 1 + ": " + predicciones.get(i).getPrediccion() + "  -  " + predicciones.get(i).getN());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -304,6 +345,7 @@ public class InterfazFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -326,8 +368,8 @@ public class InterfazFrame extends javax.swing.JFrame {
     public void aplicarFormao(Font f) {
         this.font = f;
         this.jTextArea1.setFont(font);
-        
-       this.pop.cambiarFuente(f);
+
+        //this.pop.cambiarFuente(f);
     }
-    
+
 }
