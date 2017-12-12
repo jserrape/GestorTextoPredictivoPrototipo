@@ -9,14 +9,9 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextArea;
 
 /**
  *
@@ -26,10 +21,8 @@ public class PopUpMenu {
 
     private final JPopupMenu Pmenu;
     private final javax.swing.JTextArea jt;
-    //private final KeyListenerImpl liste;
 
     public PopUpMenu(javax.swing.JTextArea jt, Font font) {
-
         this.jt = jt;
         JMenuItem menuItem;
 
@@ -49,13 +42,6 @@ public class PopUpMenu {
         menuItem = new JMenuItem("Predicción 5");
         Pmenu.add(menuItem);
         menuItem.addActionListener(new ActionListenerImpl(jt));
-
-        //liste = new KeyListenerImpl(jt, font);
-        //jt.addKeyListener(liste);
-    }
-
-    public void cambiarFuente(Font f) {
-        //this.liste.cambiarFuente(f);
     }
 
     public void colocar(Component e, int x, int y, ArrayList<Ocurrencia> predicciones) {
@@ -71,43 +57,6 @@ public class PopUpMenu {
 
         this.Pmenu.show(e, x, y);
         this.jt.requestFocus();
-    }
-
-    private class KeyListenerImpl implements KeyListener {
-
-        private final JTextArea jt;
-        private Font font;
-
-        public KeyListenerImpl(JTextArea jt, Font font) {
-            this.jt = jt;
-            this.font = font;
-        }
-
-        public void cambiarFuente(Font f) {
-            this.font = f;
-        }
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            String text = jt.getText();
-
-            AffineTransform affinetransform = new AffineTransform();
-            FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-            int textwidth = (int) (font.getStringBounds(text, frc).getWidth());
-            int textheight = (int) (font.getStringBounds(text, frc).getHeight());
-
-            System.out.println(this.jt.getCaretPosition());
-            Pmenu.show(e.getComponent(), textwidth, textheight);
-            this.jt.requestFocus();
-        }
     }
 
     private static class ActionListenerImpl implements ActionListener {

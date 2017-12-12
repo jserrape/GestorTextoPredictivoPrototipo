@@ -17,11 +17,9 @@ public class main {
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
+     * @throws javax.swing.text.BadLocationException
      */
     public static void main(String[] args) throws IOException, BadLocationException {
-        //VentanaEscrituraFrame ventanaa = new VentanaEscrituraFrame();
-        //ventanaa.setVisible(true);
-        
         InterfazFrame ventana = new InterfazFrame();
         ventana.setVisible(true);
     }

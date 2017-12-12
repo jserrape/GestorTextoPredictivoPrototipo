@@ -28,7 +28,7 @@ public class InterfazFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         font = new Font("Andalus", Font.PLAIN, 20);
-        predictor = new Predictor(3, 3,font,this.jTextArea1);
+        predictor = new Predictor(3, 3, font, this.jTextArea1);
         this.jTextArea1.setFont(font);
     }
 
@@ -46,7 +46,6 @@ public class InterfazFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -115,17 +114,6 @@ public class InterfazFrame extends javax.swing.JFrame {
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton4);
 
-        jButton5.setText("Estadisticas");
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton5);
-
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
@@ -161,6 +149,7 @@ public class InterfazFrame extends javax.swing.JFrame {
         jMenuItem3.setText("Guardar");
         jMenu1.add(jMenuItem3);
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/guardarComo.gif"))); // NOI18N
         jMenuItem4.setText("Guardar como...");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -204,7 +193,7 @@ public class InterfazFrame extends javax.swing.JFrame {
         jMenu2.add(jMenuItem10);
         jMenu2.add(jSeparator3);
 
-        jMenuItem11.setText("Bucar...");
+        jMenuItem11.setText("Buscar...");
         jMenu2.add(jMenuItem11);
 
         jMenuItem12.setText("Buscar siguiene");
@@ -311,12 +300,6 @@ public class InterfazFrame extends javax.swing.JFrame {
         op.setVisible(true);
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        this.predictor.estadisicas();
-        hacerPrediccion();
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     public void hacerPrediccion() {
         ArrayList<Ocurrencia> predicciones = predictor.enviarPrediccion(this.jTextArea1.getText(), this.jTextArea1.getText().charAt(this.jTextArea1.getText().length() - 1) == ' ');
         for (int i = 0; i < predicciones.size(); i++) {
@@ -329,7 +312,6 @@ public class InterfazFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -365,11 +347,11 @@ public class InterfazFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 
-    public void aplicarFormao(Font f) {
+    public void aplicarFormato(Font f) {
         this.font = f;
         this.jTextArea1.setFont(font);
 
-        //this.pop.cambiarFuente(f);
+        this.predictor.cambiarFuente(f);
     }
 
 }

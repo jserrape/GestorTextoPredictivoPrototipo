@@ -19,6 +19,8 @@ public class Predictor {
     private final int tamSemilla;
     private final int tamPrediccion;
     private final Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas;
+    private final KeyListenerImpl list;
+    private final int nMaxPredicciones;
 
     /**
      * Constructor parametrizado
@@ -31,13 +33,15 @@ public class Predictor {
     public Predictor(int tamSemilla, int tamPrediccion, Font font, javax.swing.JTextArea jt) {
         this.tamSemilla = tamSemilla;
         this.tamPrediccion = tamPrediccion;
+        this.nMaxPredicciones=10;
 
         this.almacenesSemillas = new Map[tamSemilla + 1];
         for (int i = 1; i < tamSemilla + 1; i++) {
             almacenesSemillas[i] = new HashMap<>();
         }
 
-        jt.addKeyListener(new KeyListenerImpl(jt, this,new PopUpMenu(jt, font)));
+        list = new KeyListenerImpl(jt, this, new PopUpMenu(jt, font), font);
+        jt.addKeyListener(list);
     }
 
     /**
@@ -126,12 +130,15 @@ public class Predictor {
                         break;
                     }
                 }
+                if ("".equals(semilla.replaceAll(" ", ""))) {
+                    return arr;
+                }
                 semilla = semilla.substring(0, semilla.length() - 1);
 
                 if (almacenesSemillas[i].containsKey(semilla)) {
                     for (int z = 0; z < almacenesSemillas[i].get(semilla).size(); z++) {
                         arr.add(almacenesSemillas[i].get(semilla).get(z));
-                        if (arr.size() == 10) {
+                        if (arr.size() == nMaxPredicciones) {
                             return arr;
                         }
                     }
@@ -164,7 +171,7 @@ public class Predictor {
                         for (int j = 0; j < almacenesSemillas[i].get(semillaBase).size(); j++) {
                             if (almacenesSemillas[i].get(semillaBase).get(j).getPrediccion().indexOf(semillaInacabada) == 0) {
                                 arr.add(almacenesSemillas[i].get(semillaBase).get(j));
-                                if (arr.size() == 10) {
+                                if (arr.size() == nMaxPredicciones) {
                                     return arr;
                                 }
                             }
@@ -199,17 +206,26 @@ public class Predictor {
         System.out.println("    Ocurrencias con semilla 1: " + this.almacenesSemillas[1].size());
     }
 
+    public void cambiarFuente(Font f) {
+        this.list.cambiarFuente(f);
+    }
+
     private class KeyListenerImpl implements KeyListener {
 
         private final JTextArea jt;
         private final Predictor predictor;
         private final PopUpMenu pop;
-        
-        
-        public KeyListenerImpl(JTextArea jt, Predictor pre,PopUpMenu pop) {
+        private Font font;
+
+        public KeyListenerImpl(JTextArea jt, Predictor pre, PopUpMenu pop, Font font) {
             this.jt = jt;
             this.predictor = pre;
-            this.pop=pop;
+            this.pop = pop;
+            this.font = font;
+        }
+
+        public void cambiarFuente(Font f) {
+            this.font = f;
         }
 
         @Override
@@ -222,11 +238,22 @@ public class Predictor {
 
         @Override
         public void keyReleased(KeyEvent e) {
+            if ("".equals(this.jt.getText())) {
+                return;
+            }
             ArrayList<Ocurrencia> predicciones = predictor.enviarPrediccion(this.jt.getText(), this.jt.getText().charAt(this.jt.getText().length() - 1) == ' ');
             for (int i = 0; i < predicciones.size(); i++) {
                 System.out.println(i + 1 + ": " + predicciones.get(i).getPrediccion() + "  -  " + predicciones.get(i).getN());
             }
-            this.pop.colocar(e.getComponent(),40, 50,predicciones);
+
+            String text = jt.getText();
+
+            AffineTransform affinetransform = new AffineTransform();
+            FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+            int textwidth = (int) (font.getStringBounds(text, frc).getWidth());
+            int textheight = (int) (font.getStringBounds(text, frc).getHeight());
+
+            this.pop.colocar(e.getComponent(), textwidth, textheight, predicciones);
         }
     }
 }
