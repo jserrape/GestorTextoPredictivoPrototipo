@@ -33,7 +33,7 @@ public class Predictor {
     public Predictor(int tamSemilla, int tamPrediccion, Font font, javax.swing.JTextArea jt) {
         this.tamSemilla = tamSemilla;
         this.tamPrediccion = tamPrediccion;
-        this.nMaxPredicciones=10;
+        this.nMaxPredicciones = 10;
 
         this.almacenesSemillas = new Map[tamSemilla + 1];
         for (int i = 1; i < tamSemilla + 1; i++) {
@@ -199,13 +199,6 @@ public class Predictor {
         arr.add(new Ocurrencia(pred));
     }
 
-    public void estadisicas() {
-        System.out.println("Estadisticas:");
-        System.out.println("    Tamaño máximo de la semilla: " + this.tamSemilla);
-        System.out.println("    Tamaño de la predicción: " + this.tamPrediccion);
-        System.out.println("    Ocurrencias con semilla 1: " + this.almacenesSemillas[1].size());
-    }
-
     public void cambiarFuente(Font f) {
         this.list.cambiarFuente(f);
     }
@@ -238,20 +231,30 @@ public class Predictor {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            if ("".equals(this.jt.getText())) {
+            if ("".equals(this.jt.getText().replaceAll("\n", ""))) {
                 return;
             }
-            ArrayList<Ocurrencia> predicciones = predictor.enviarPrediccion(this.jt.getText(), this.jt.getText().charAt(this.jt.getText().length() - 1) == ' ');
-            for (int i = 0; i < predicciones.size(); i++) {
-                System.out.println(i + 1 + ": " + predicciones.get(i).getPrediccion() + "  -  " + predicciones.get(i).getN());
+
+            //System.out.println(this.jt.getCaretPosition());
+            int caracteresAnteriores=0;
+            if(this.jt.getCaretPosition()-60>=0){
+                caracteresAnteriores=this.jt.getCaretPosition()-60;
             }
+            String texto = this.jt.getText().substring(caracteresAnteriores, this.jt.getCaretPosition());
+            
+            boolean acabado = false;
+            if (this.jt.getCaretPosition() != 0) {
+                acabado = this.jt.getText().charAt(texto.length() - 1) == ' ';
+            }
+
+            ArrayList<Ocurrencia> predicciones = predictor.enviarPrediccion(texto, acabado);
 
             String text = jt.getText();
 
             AffineTransform affinetransform = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-            int textwidth = (int) (font.getStringBounds(text, frc).getWidth());
-            int textheight = (int) (font.getStringBounds(text, frc).getHeight());
+            int textwidth = ((int) (font.getStringBounds(text, frc).getWidth()))%jt.getBounds().width;
+            int textheight =  ((((int) (font.getStringBounds(text, frc).getWidth()))/jt.getBounds().width)+1)*(((int) (font.getStringBounds(text, frc).getHeight())));
 
             this.pop.colocar(e.getComponent(), textwidth, textheight, predicciones);
         }

@@ -362,7 +362,7 @@ public class FormatoFrame extends javax.swing.JDialog {
                 int selections[] = list.getSelectedIndices();
                 Object selectionValues[] = list.getSelectedValues();
                 for (int i = 0, n = selections.length; i < n; i++) {
-                    System.out.println(selectionValues[i].toString());
+                    //System.out.println(selectionValues[i].toString());
                     f.actualizaTam(selectionValues[i].toString());
                 }
             }
