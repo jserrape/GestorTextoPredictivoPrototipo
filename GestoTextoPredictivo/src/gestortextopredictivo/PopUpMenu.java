@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
@@ -70,7 +71,25 @@ public class PopUpMenu {
         @Override
         public void actionPerformed(ActionEvent e) {
             StringBuilder sb = new StringBuilder(jt.getText());
-            sb.insert(jt.getCaretPosition(), e.getActionCommand() + " ");
+            if (jt.getText().charAt(jt.getCaretPosition() - 1) != ' ') {
+                System.out.println("NO acabado");
+                String semilla; //semilla
+                if (jt.getCaretPosition() - 10 < 0) {
+                    semilla = jt.getText().substring(0, jt.getCaretPosition());
+                } else {
+                    semilla = jt.getText().substring(jt.getCaretPosition() - 10, jt.getCaretPosition());
+                }
+                System.out.println("Semilla:" + semilla);
+                String[] palabras = semilla.split("\\s+");
+                String palabraInacabada = palabras[palabras.length - 1];
+                System.out.println(palabraInacabada);
+                String prediccionRecortada = e.getActionCommand().substring(palabraInacabada.length(), e.getActionCommand().length());
+                System.out.println("prediccionRecortada:" + prediccionRecortada);
+
+                sb.insert(jt.getCaretPosition(), prediccionRecortada + " ");
+            } else {
+                sb.insert(jt.getCaretPosition(), e.getActionCommand() + " ");
+            }
             jt.setText(sb.toString());
         }
     }
