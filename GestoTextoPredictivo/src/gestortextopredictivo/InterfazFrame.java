@@ -6,6 +6,9 @@
 package gestortextopredictivo;
 
 import java.awt.Font;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.text.BadLocationException;
 
 /**
@@ -45,7 +48,6 @@ public class InterfazFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -113,17 +115,6 @@ public class InterfazFrame extends javax.swing.JFrame {
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton4);
-
-        jButton5.setText("Cosas raras");
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton5);
 
         jTextArea1.setColumns(20);
         jTextArea1.setLineWrap(true);
@@ -245,6 +236,11 @@ public class InterfazFrame extends javax.swing.JFrame {
         jMenu3.add(jMenuItem18);
 
         jMenuItem19.setText("Idioma");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem19);
 
         jMenuBar1.add(jMenu3);
@@ -312,12 +308,15 @@ public class InterfazFrame extends javax.swing.JFrame {
         op.setVisible(true);
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
         // TODO add your handling code here:
-        System.out.println(this.jTextArea1.getBounds().height);
-        System.out.println(this.jTextArea1.getBounds().width);
-    }//GEN-LAST:event_jButton5ActionPerformed
-
+        try {
+            IdiomaFrame id= new IdiomaFrame(this, false);
+            id.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(InterfazFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -325,7 +324,6 @@ public class InterfazFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
