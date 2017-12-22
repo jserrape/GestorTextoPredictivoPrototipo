@@ -99,9 +99,8 @@ public class hiloLectura implements Runnable {
 
         for (String frase : frases) {
             palabras = frase.split("\\s+");
-            for (int j = 0; j < palabras.length - almacen; j++) { //<--- Antes la primera palabra me la tomaba como "", comprobar
+            for (int j = 0; j < palabras.length - almacen; j++) {
                 if ("".equals(palabras[j])) {
-                    //System.out.println("SI ESTO NO SALTA NUNCA, SOBRA");
                     continue;
                 }
                 conjuntoSemilla = "";

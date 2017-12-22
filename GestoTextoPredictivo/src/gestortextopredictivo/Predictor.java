@@ -235,7 +235,6 @@ public class Predictor {
                 return;
             }
 
-            //System.out.println(this.jt.getCaretPosition());
             int caracteresAnteriores=0;
             if(this.jt.getCaretPosition()-60>=0){
                 caracteresAnteriores=this.jt.getCaretPosition()-60;

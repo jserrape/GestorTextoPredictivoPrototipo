@@ -37,8 +37,6 @@ public class FormatoFrame extends javax.swing.JDialog {
         this.jTextArea1.setLineWrap(true);
         this.font = f;
 
-        //jTextArea1.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
-        //jTextArea1.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
         jList1.addListSelectionListener(new ListSelectionListenerFormato(this));
         jList2.addListSelectionListener(new ListSelectionListenerEstilo(this));
         jList4.addListSelectionListener(new ListSelectionListenerTam(this));
@@ -362,7 +360,6 @@ public class FormatoFrame extends javax.swing.JDialog {
                 int selections[] = list.getSelectedIndices();
                 Object selectionValues[] = list.getSelectedValues();
                 for (int i = 0, n = selections.length; i < n; i++) {
-                    //System.out.println(selectionValues[i].toString());
                     f.actualizaTam(selectionValues[i].toString());
                 }
             }

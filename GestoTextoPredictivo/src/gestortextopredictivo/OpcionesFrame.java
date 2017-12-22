@@ -25,7 +25,7 @@ public class OpcionesFrame extends javax.swing.JFrame {
 
     /**
      * Constructor por defecto
-     * @param predictor
+     * @param pred
      */
     public OpcionesFrame(Predictor pred) {
         initComponents();

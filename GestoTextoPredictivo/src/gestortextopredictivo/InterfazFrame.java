@@ -6,7 +6,6 @@
 package gestortextopredictivo;
 
 import java.awt.Font;
-import java.util.ArrayList;
 import javax.swing.text.BadLocationException;
 
 /**
