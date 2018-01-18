@@ -3,6 +3,7 @@ package gestortextopredictivo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,7 +77,7 @@ public class hiloLectura implements Runnable {
         jProgressBar1.setValue(95);
 
         for (int i = this.tamSemilla; i > 0; i--) {
-            almacenesSemillas[i].forEach((k, v) -> Collections.sort(v));
+            almacenesSemillas[i].forEach((k, v) -> Collections.sort(v, (Ocurrencia o1, Ocurrencia o2) -> Integer.valueOf(o2.getN()).compareTo(o1.getN())));
         }
 
         jProgressBar1.setValue(100);

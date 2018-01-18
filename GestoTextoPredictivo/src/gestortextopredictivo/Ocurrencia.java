@@ -9,7 +9,7 @@ package gestortextopredictivo;
  *
  * @author jcsp0003
  */
-public class Ocurrencia implements Comparable<Ocurrencia> {
+public class Ocurrencia{
 
     private int n;
     private final String prediccion;
@@ -31,15 +31,6 @@ public class Ocurrencia implements Comparable<Ocurrencia> {
         this.prediccion = pred;
     }
 
-    /**
-     * Compara dos predicciones
-     * @param o Segundo objeto Ocurrencia
-     * @return Qué predicción ha sido referenciada más veces.
-     */
-    @Override
-    public int compareTo(Ocurrencia o) {
-        return Integer.toString(o.n).compareTo(Integer.toString(this.n));
-    }
 
     /**
      * Incremena las veces que ha sido referenciada la predición

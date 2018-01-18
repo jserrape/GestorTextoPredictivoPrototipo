@@ -110,6 +110,7 @@ public class Predictor {
      * @return
      */
     public ArrayList<Ocurrencia> enviarPrediccion(String texto, boolean completa) {
+        
         if (completa) {
             ArrayList<Ocurrencia> arr = new ArrayList();
             String[] palabras = texto.split("\\s+");
@@ -117,7 +118,7 @@ public class Predictor {
             String semilla;
 
             for (int i = this.tamSemilla; i > 0; i--) {
-                //arr.add(new Ocurrencia("---------Semilla tamaño: " + i + "  -----------"));
+                //System.out.println("---------Semilla tamaño: " + i + "  -----------");
                 limite = 0;
                 semilla = "";
                 for (int j = palabras.length - 1; j >= 0; j--) {
@@ -138,6 +139,7 @@ public class Predictor {
                 if (almacenesSemillas[i].containsKey(semilla)) {
                     for (int z = 0; z < almacenesSemillas[i].get(semilla).size(); z++) {
                         arr.add(almacenesSemillas[i].get(semilla).get(z));
+                        //System.out.println(almacenesSemillas[i].get(semilla).get(z).getN() + " " + almacenesSemillas[i].get(semilla).get(z).getPrediccion());
                         if (arr.size() == nMaxPredicciones) {
                             return arr;
                         }
@@ -151,7 +153,7 @@ public class Predictor {
             int limite;
             String semillaBase, semillaInacabada;
             for (int i = this.tamSemilla; i > 0; i--) {
-                //arr.add(new Ocurrencia("---------Semilla tamaño: " + i + "  -----------"));
+                //System.out.println("---------Semilla tamaño: " + i + "  -----------");
                 limite = 0;
                 semillaBase = "";
                 semillaInacabada = palabras[palabras.length - 1];
@@ -171,6 +173,7 @@ public class Predictor {
                         for (int j = 0; j < almacenesSemillas[i].get(semillaBase).size(); j++) {
                             if (almacenesSemillas[i].get(semillaBase).get(j).getPrediccion().indexOf(semillaInacabada) == 0) {
                                 arr.add(almacenesSemillas[i].get(semillaBase).get(j));
+                                //System.out.println(almacenesSemillas[i].get(semillaBase).get(j).getN() + " " + almacenesSemillas[i].get(semillaBase).get(j).getPrediccion());
                                 if (arr.size() == nMaxPredicciones) {
                                     return arr;
                                 }
@@ -235,12 +238,12 @@ public class Predictor {
                 return;
             }
 
-            int caracteresAnteriores=0;
-            if(this.jt.getCaretPosition()-60>=0){
-                caracteresAnteriores=this.jt.getCaretPosition()-60;
+            int caracteresAnteriores = 0;
+            if (this.jt.getCaretPosition() - 60 >= 0) {
+                caracteresAnteriores = this.jt.getCaretPosition() - 60;
             }
             String texto = this.jt.getText().substring(caracteresAnteriores, this.jt.getCaretPosition());
-            
+
             boolean acabado = false;
             if (this.jt.getCaretPosition() != 0) {
                 acabado = this.jt.getText().charAt(texto.length() - 1) == ' ';
@@ -252,8 +255,8 @@ public class Predictor {
 
             AffineTransform affinetransform = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-            int textwidth = ((int) (font.getStringBounds(text, frc).getWidth()))%jt.getBounds().width;
-            int textheight =  ((((int) (font.getStringBounds(text, frc).getWidth()))/jt.getBounds().width)+1)*(((int) (font.getStringBounds(text, frc).getHeight())));
+            int textwidth = ((int) (font.getStringBounds(text, frc).getWidth())) % jt.getBounds().width;
+            int textheight = ((((int) (font.getStringBounds(text, frc).getWidth())) / jt.getBounds().width) + 1) * (((int) (font.getStringBounds(text, frc).getHeight())));
 
             this.pop.colocar(e.getComponent(), textwidth, textheight, predicciones);
         }

@@ -33,7 +33,7 @@ public class PopUpMenu {
 
         JMenuItem menuItem;
         for (int i = 0; i < predicciones.size(); i++) {
-            menuItem = new JMenuItem(predicciones.get(i).getPrediccion());
+            menuItem = new JMenuItem("(" + predicciones.get(i).getN() + ") " + predicciones.get(i).getPrediccion());
             Pmenu.add(menuItem);
             menuItem.addActionListener(new ActionListenerImpl(jt));
         }
