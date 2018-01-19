@@ -30,7 +30,7 @@ public class InterfazFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         font = new Font("Andalus", Font.PLAIN, 20);
-        predictor = new Predictor(3, 3, font, this.jTextArea1);
+        predictor = new Predictor(3, 5, font, this.jTextArea1);
         this.jTextArea1.setFont(font);
     }
 

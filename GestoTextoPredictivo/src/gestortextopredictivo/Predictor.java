@@ -16,11 +16,11 @@ import javax.swing.JTextArea;
  */
 public class Predictor {
 
-    private final int tamSemilla;
-    private final int tamPrediccion;
+    private int tamSemilla;
+    private int tamPrediccion;
     private final Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas;
     private final KeyListenerImpl list;
-    private final int nMaxPredicciones;
+    private int nMaxPredicciones;
 
     /**
      * Constructor parametrizado
@@ -30,7 +30,7 @@ public class Predictor {
      * @param font
      * @param jt
      */
-    public Predictor(int tamSemilla, int tamPrediccion, Font font, javax.swing.JTextArea jt) {
+    public Predictor(int tamSemilla, int tamPrediccion, Font font, javax.swing.JTextArea jt) { //BORRAR int tamSemilla, int tamPrediccion
         this.tamSemilla = tamSemilla;
         this.tamPrediccion = tamPrediccion;
         this.nMaxPredicciones = 10;
@@ -110,7 +110,7 @@ public class Predictor {
      * @return
      */
     public ArrayList<Ocurrencia> enviarPrediccion(String texto, boolean completa) {
-        
+
         if (completa) {
             ArrayList<Ocurrencia> arr = new ArrayList();
             String[] palabras = texto.split("\\s+");
@@ -200,6 +200,12 @@ public class Predictor {
             }
         }
         arr.add(new Ocurrencia(pred));
+    }
+
+    public void ajustarTam(int ntamSemilla, int ntamPrediccion, int ntamPredicciones) {
+        this.tamSemilla = ntamSemilla;
+        this.tamPrediccion = ntamPrediccion;
+        this.nMaxPredicciones = ntamPredicciones;
     }
 
     public void cambiarFuente(Font f) {

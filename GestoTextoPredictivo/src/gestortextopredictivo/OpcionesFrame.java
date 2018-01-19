@@ -75,8 +75,13 @@ public class OpcionesFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jtamPrediccion = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jProgressBar1 = new javax.swing.JProgressBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -84,11 +89,17 @@ public class OpcionesFrame extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jtSemilla = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
-        jtPrediccion = new javax.swing.JSpinner();
-        jLabel2 = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        jMinSemilla = new javax.swing.JSpinner();
+        jLabel3 = new javax.swing.JLabel();
+        jtManPredicciones = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jtamPrediccion.setModel(new javax.swing.SpinnerNumberModel(2, 0, 5, 1));
+
+        jLabel2.setText("Tamaño de la predicción");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -140,106 +151,165 @@ public class OpcionesFrame extends javax.swing.JFrame {
 
         jtSemilla.setModel(new javax.swing.SpinnerNumberModel(3, 0, 5, 1));
 
-        jLabel1.setText("Tamaño de la semilla");
+        jLabel1.setText("Tamaño máximo de la semilla");
 
-        jtPrediccion.setModel(new javax.swing.SpinnerNumberModel(2, 0, 5, 1));
+        jMinSemilla.setModel(new javax.swing.SpinnerNumberModel(1, 1, 3, 1));
 
-        jLabel2.setText("Tamaño de la predicción");
+        jLabel3.setText("Tamaño mínimo de la semilla");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        jtManPredicciones.setModel(new javax.swing.SpinnerNumberModel(10, 2, 20, 1));
+
+        jLabel4.setText("Máximo de predicciones");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jtSemilla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addGap(46, 46, 46)
-                        .addComponent(jtPrediccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5)))
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jtSemilla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(23, 23, 23)
+                                        .addComponent(jtamPrediccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(72, 72, 72)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jMinSemilla, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtManPredicciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(68, 68, 68)
+                                .addComponent(jButton2)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 265, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 25, Short.MAX_VALUE)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(65, 65, 65)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(jButton5)
+                                .addGap(31, 31, 31))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(0, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtSemilla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jtPrediccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jMinSemilla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtamPrediccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jtManPredicciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+        );
+
+        jTabbedPane2.addTab("Crear conjunto", jPanel1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 730, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 371, Short.MAX_VALUE)
+        );
+
+        jTabbedPane2.addTab("Anteriores conjuntos", jPanel2);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane2)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Selecciona un fichero del ordenador y almacena la ruta en la tabla
+     * Extrae el texto de las entradas de la tabla y crea la estructura de datos destinada a la predicción
      * @param evt Evento del botón
      */
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(".pdf", "pdf", "text");
-        JFileChooser chooser = new JFileChooser();
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        //this.predictor = new Predictor((int) this.jtSemilla.getValue(), (int) this.jtPrediccion.getValue());
 
-        chooser.setFileFilter(filter);
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("choosertitle");
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.setAcceptAllFileFilterUsed(false);
+        ArrayList<String> ficheros = new ArrayList();
+        ArrayList<String> urls = new ArrayList();
+        int index;
 
-        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            this.nuevaFila("Fichero", chooser.getSelectedFile().toString());
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    /**
-     * Selecciona un directorio del ordenador y almacena la ruta en la tabla
-     * @param evt Evento del botón
-     */
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        JFileChooser chooser = new JFileChooser();
-
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("choosertitle");
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setAcceptAllFileFilterUsed(false);
-
-        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            this.nuevaFila("Directorio", chooser.getSelectedFile().toString());
-        } else {
-            System.out.println("No Selection ");
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            switch (modelo.getValueAt(i, 0).toString()) {
+                case "Fichero":
+                if (!ficheros.contains(modelo.getValueAt(i, 1).toString())) {
+                    ficheros.add(modelo.getValueAt(i, 1).toString());
+                }
+                break;
+                case "Directorio":
+                File f = new File(modelo.getValueAt(i, 1).toString());
+                if (f.exists()) {
+                    File[] fich = f.listFiles();
+                    for (File fich1 : fich) {
+                        index = fich1.getName().lastIndexOf('.');
+                        if (index != -1) {
+                            if (".pdf".equals(fich1.getName().substring(index, fich1.getName().length()).toLowerCase())) {
+                                if (!ficheros.contains(modelo.getValueAt(i, 1).toString() + "\\" + fich1.getName())) {
+                                    ficheros.add(modelo.getValueAt(i, 1).toString() + "\\" + fich1.getName());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+                    case "URL":
+                    urls.add(modelo.getValueAt(i, 1).toString());
+                    break;
+                }
+            }
+            extraerPalabrasFichero(ficheros,urls);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * Elimina una entrada seleccionada de la tabla
@@ -261,55 +331,52 @@ public class OpcionesFrame extends javax.swing.JFrame {
         url.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    
     /**
-     * Extrae el texto de las entradas de la tabla y crea la estructura de datos destinada a la predicción
+     * Selecciona un directorio del ordenador y almacena la ruta en la tabla
      * @param evt Evento del botón
      */
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        //this.predictor = new Predictor((int) this.jtSemilla.getValue(), (int) this.jtPrediccion.getValue());
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JFileChooser chooser = new JFileChooser();
 
-        ArrayList<String> ficheros = new ArrayList();
-        ArrayList<String> urls = new ArrayList();
-        int index;
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("choosertitle");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
 
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            switch (modelo.getValueAt(i, 0).toString()) {
-                case "Fichero":
-                    if (!ficheros.contains(modelo.getValueAt(i, 1).toString())) {
-                        ficheros.add(modelo.getValueAt(i, 1).toString());
-                    }
-                    break;
-                case "Directorio":
-                    File f = new File(modelo.getValueAt(i, 1).toString());
-                    if (f.exists()) {
-                        File[] fich = f.listFiles();
-                        for (File fich1 : fich) {
-                            index = fich1.getName().lastIndexOf('.');
-                            if (index != -1) {
-                                if (".pdf".equals(fich1.getName().substring(index, fich1.getName().length()).toLowerCase())) {
-                                    if (!ficheros.contains(modelo.getValueAt(i, 1).toString() + "\\" + fich1.getName())) {
-                                        ficheros.add(modelo.getValueAt(i, 1).toString() + "\\" + fich1.getName());
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case "URL":
-                    urls.add(modelo.getValueAt(i, 1).toString());
-                    break;
-            }
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            this.nuevaFila("Directorio", chooser.getSelectedFile().toString());
+        } else {
+            System.out.println("No Selection ");
         }
-        extraerPalabrasFichero(ficheros,urls);
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * Selecciona un fichero del ordenador y almacena la ruta en la tabla
+     * @param evt Evento del botón
+     */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(".pdf", "pdf", "text");
+        JFileChooser chooser = new JFileChooser();
+
+        chooser.setFileFilter(filter);
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("choosertitle");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            this.nuevaFila("Fichero", chooser.getSelectedFile().toString());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
     /**
      * Extrae el texto de los ficheros de un array
      * @param ficheros Array con los ficheros pdf
      */
     private void extraerPalabrasFichero(ArrayList<String> ficheros,ArrayList<String> urls) {
         if (!ficheros.isEmpty() || !urls.isEmpty()) {
+            predictor.ajustarTam(getTamSemilla(), getTamPrediccion(), getTMaxPredicciones());
             predictor.insertarTexto(ficheros,urls, jProgressBar1);
         }
     }
@@ -330,8 +397,16 @@ public class OpcionesFrame extends javax.swing.JFrame {
      * Devuelve el valor del tamaño de la semilla seleccionado pro el usuario
      * @return Valor del tamaño de la semilla
      */
-    public int tamSemilla() {
+    public int getTamSemilla() {
         return (int) this.jtSemilla.getValue();
+    }
+    
+    public int getTamPrediccion() {
+        return (int) this.jtamPrediccion.getValue();
+    }
+    
+    public int getTMaxPredicciones() {
+        return (int) this.jtManPredicciones.getValue();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -342,10 +417,17 @@ public class OpcionesFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JSpinner jMinSemilla;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JSpinner jtPrediccion;
+    private javax.swing.JSpinner jtManPredicciones;
     private javax.swing.JSpinner jtSemilla;
+    private javax.swing.JSpinner jtamPrediccion;
     // End of variables declaration//GEN-END:variables
 }
