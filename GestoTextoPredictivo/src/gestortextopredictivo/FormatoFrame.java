@@ -366,13 +366,13 @@ public class FormatoFrame extends javax.swing.JDialog {
         }
     }
 
-    public void actualizaFuente(String fuente) {
+    private void actualizaFuente(String fuente) {
         this.jTextField1.setText(fuente);
         this.font = new Font(fuente, this.font.getStyle(), this.font.getSize());
         this.jTextArea1.setFont(font);
     }
 
-    public void actualizaEstilo(String est) {
+    private void actualizaEstilo(String est) {
         int estilo;
         if ("Normal".equals(est)) {
             estilo = Font.PLAIN;
@@ -388,7 +388,7 @@ public class FormatoFrame extends javax.swing.JDialog {
         this.jTextArea1.setFont(font);
     }
 
-    public void actualizaTam(String tam) {
+    private void actualizaTam(String tam) {
         this.jTextField4.setText(tam);
         this.font = new Font(this.font.getFontName(), this.font.getStyle(), Integer.parseInt(tam));
         this.jTextArea1.setFont(font);

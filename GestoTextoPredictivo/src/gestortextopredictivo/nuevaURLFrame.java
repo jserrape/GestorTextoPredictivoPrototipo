@@ -25,7 +25,7 @@ public class nuevaURLFrame extends javax.swing.JDialog {
      * @param modal Valor modal
      * @param Opp Objeto padre: Opciones
      */
-    public nuevaURLFrame(java.awt.Frame parent, boolean modal, OpcionesFrame Opp) {
+    public nuevaURLFrame(javax.swing.JDialog parent, boolean modal, OpcionesFrame Opp) {
         super(parent, modal);
         initComponents();
 

@@ -1,9 +1,11 @@
 package gestortextopredictivo;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +51,7 @@ public class hiloLectura implements Runnable {
         jProgressBar1.setValue(0);
         int cont = 95 / (ficheros.size() + urls.size());
         lecturaDatos lectura = new lecturaDatos();
-        
+
         //Lectura de los ficheros pdf
         for (int x = 0; x < ficheros.size(); x++) {
             try {
@@ -61,7 +63,7 @@ public class hiloLectura implements Runnable {
             }
             jProgressBar1.setValue(jProgressBar1.getValue() + cont);
         }
-        
+
         //Lectura de las urls
         for (int x = 0; x < urls.size(); x++) {
             try {
@@ -73,7 +75,7 @@ public class hiloLectura implements Runnable {
             }
             jProgressBar1.setValue(jProgressBar1.getValue() + cont);
         }
-        
+
         jProgressBar1.setValue(95);
 
         for (int i = this.tamSemilla; i > 0; i--) {
@@ -81,6 +83,11 @@ public class hiloLectura implements Runnable {
         }
 
         jProgressBar1.setValue(100);
+        try {
+            crearDataSet(ficheros,urls);
+        } catch (IOException ex) {
+            Logger.getLogger(hiloLectura.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -136,7 +143,7 @@ public class hiloLectura implements Runnable {
      * @param arr
      * @param pred Texto de la prediccion
      */
-    public void nuevaPrediccion(ArrayList<Ocurrencia> arr, String pred) {
+    private void nuevaPrediccion(ArrayList<Ocurrencia> arr, String pred) {
         for (int i = 0; i < arr.size(); i++) {
             if (arr.get(i).getPrediccion().equals(pred)) {
                 arr.get(i).nuevaOcurrencia();
@@ -144,6 +151,26 @@ public class hiloLectura implements Runnable {
             }
         }
         arr.add(new Ocurrencia(pred));
+    }
+
+    private void crearDataSet(ArrayList<String> ficheros, ArrayList<String> urls) throws IOException {
+        java.util.Date utilDate = new java.util.Date(); 
+        String []  fecha = utilDate.toString().split(" ");
+
+        String ruta = "./dataSet/"+fecha[0]+"-"+fecha[2]+"-"+fecha[1]+"-"+fecha[3].replaceAll(":", "_");
+        File archivo = new File(ruta);
+        BufferedWriter bw;
+        bw = new BufferedWriter(new FileWriter(archivo));
+        
+        for(int i=0;i<ficheros.size();i++){
+            bw.write("fichero###"+ficheros.get(i));
+            bw.newLine();
+        }
+        for(int i=0;i<urls.size();i++){
+            bw.write("url###"+urls.get(i));
+            bw.newLine();
+        }
+        bw.close();
     }
 
 }

@@ -304,7 +304,12 @@ public class InterfazFrame extends javax.swing.JFrame {
 
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
         // TODO add your handling code here:
-        OpcionesFrame op = new OpcionesFrame(predictor);
+        OpcionesFrame op = null;
+        try {
+            op = new OpcionesFrame(this,true,predictor);
+        } catch (IOException ex) {
+            Logger.getLogger(InterfazFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         op.setVisible(true);
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 

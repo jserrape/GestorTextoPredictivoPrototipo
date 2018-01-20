@@ -109,7 +109,7 @@ public class Predictor {
      * sido terminada de escribir
      * @return
      */
-    public ArrayList<Ocurrencia> enviarPrediccion(String texto, boolean completa) {
+    private ArrayList<Ocurrencia> enviarPrediccion(String texto, boolean completa) {
 
         if (completa) {
             ArrayList<Ocurrencia> arr = new ArrayList();
@@ -192,7 +192,7 @@ public class Predictor {
      * @param arr
      * @param pred Texto de la prediccion
      */
-    public void nuevaPrediccion(ArrayList<Ocurrencia> arr, String pred) {
+    private void nuevaPrediccion(ArrayList<Ocurrencia> arr, String pred) {
         for (int i = 0; i < arr.size(); i++) {
             if (arr.get(i).getPrediccion().equals(pred)) {
                 arr.get(i).nuevaOcurrencia();
