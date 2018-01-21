@@ -26,6 +26,7 @@ public class IdiomaFrame extends javax.swing.JDialog {
         initComponents();
 
         setLocationRelativeTo(null);
+        this.setTitle("Selección de idioma");
 
         DefaultListModel listModel = new DefaultListModel();
         

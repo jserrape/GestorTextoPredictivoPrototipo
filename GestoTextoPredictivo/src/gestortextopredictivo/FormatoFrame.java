@@ -31,6 +31,7 @@ public class FormatoFrame extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        this.setTitle("Formato");
 
         this.inter=in;
 

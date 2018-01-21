@@ -28,10 +28,10 @@ public class nuevaURLFrame extends javax.swing.JDialog {
     public nuevaURLFrame(javax.swing.JDialog parent, boolean modal, OpcionesFrame Opp) {
         super(parent, modal);
         initComponents();
-
         setLocationRelativeTo(null);
+        this.setTitle("Nueva url");
+        
         this.op = Opp;
-
         this.jTextField1.addKeyListener(new KeyListenerImpl(jButton1, jTextField1));
     }
 

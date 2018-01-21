@@ -255,7 +255,7 @@ public class Predictor {
                 acabado = this.jt.getText().charAt(texto.length() - 1) == ' ';
             }
 
-            ArrayList<Ocurrencia> predicciones = predictor.enviarPrediccion(texto, acabado);
+            ArrayList<Ocurrencia> predicciones = predictor.enviarPrediccion(texto.toLowerCase(), acabado);
 
             String text = jt.getText();
 

@@ -20,7 +20,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 
-
 /**
  *
  * @author jcsp0003
@@ -42,6 +41,7 @@ public class OpcionesFrame extends javax.swing.JDialog {
         initComponents();
 
         setLocationRelativeTo(null);
+        this.setTitle("Configuración de predicción");
 
         this.predictor = pred;
 
@@ -457,8 +457,11 @@ public class OpcionesFrame extends javax.swing.JDialog {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        //System.out.println(jTree1.sets);
+        for (int i = 0; i < jTree1.getRowCount(); i++) {
+            jTree1.expandRow(i);
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
-
 
     /**
      * Extrae el texto de los ficheros de un array
@@ -509,21 +512,19 @@ public class OpcionesFrame extends javax.swing.JDialog {
         FileReader fr = null;
         BufferedReader br;
         String[] partes;
-        int conjuntos = 0;
+        int countFich, countPdf;
         String linea;
         DefaultTreeModel model = (DefaultTreeModel) jTree1.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) jTree1.getModel().getRoot();
-        
 
         File dir = new File("./dataSet");
         String[] ficheros = dir.list();
-        for (int i=0;i<ficheros.length;i++) {
-            if(i==1){
+        for (int i = 0; i < ficheros.length; i++) {
+            if (i == 1) {
                 model.removeNodeFromParent((MutableTreeNode) jTree1.getModel().getChild(root, 1));
             }
             fichNodo = new DefaultMutableTreeNode(ficheros[i].replaceAll("_", ":").replaceAll("-", " "));
-            model.insertNodeInto(fichNodo, root, conjuntos);
-            ++conjuntos;
+            model.insertNodeInto(fichNodo, root, 0);
             pdf = new DefaultMutableTreeNode("pdf");
             url = new DefaultMutableTreeNode("url");
             model.insertNodeInto(pdf, fichNodo, 0);
@@ -532,16 +533,25 @@ public class OpcionesFrame extends javax.swing.JDialog {
                 archivo = new File("./dataSet/" + ficheros[i]);
                 fr = new FileReader(archivo);
                 br = new BufferedReader(fr);
+                countPdf = countFich = 0;
                 while ((linea = br.readLine()) != null) {
                     partes = linea.split("###");
                     if ("fichero".equals(partes[0])) {//pdf
                         hoja = new DefaultMutableTreeNode(partes[1]);
                         model.insertNodeInto(hoja, pdf, 0);
+                        ++countFich;
                     }
                     if ("url".equals(partes[0])) {//url
                         hoja = new DefaultMutableTreeNode(partes[1]);
                         model.insertNodeInto(hoja, url, 0);
+                        ++countPdf;
                     }
+                }
+                if (countFich == 0) {
+                    model.removeNodeFromParent(pdf);
+                }
+                if (countPdf == 0) {
+                    model.removeNodeFromParent(url);
                 }
             } finally {
                 if (null != fr) {

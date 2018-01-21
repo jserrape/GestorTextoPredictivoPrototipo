@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
 /**
@@ -28,8 +30,9 @@ public class InterfazFrame extends javax.swing.JFrame {
     public InterfazFrame() throws BadLocationException {
         initComponents();
         setLocationRelativeTo(null);
+        this.setTitle("Gestor de texto predictivo con origen de datos configurable");
 
-        font = new Font("Andalus", Font.PLAIN, 20);
+        font = new Font("Arial", Font.PLAIN, 20);
         predictor = new Predictor(3, 5, font, this.jTextArea1);
         this.jTextArea1.setFont(font);
     }
@@ -44,7 +47,7 @@ public class InterfazFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
+        botonNuevo = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -54,10 +57,10 @@ public class InterfazFrame extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemNuevo = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        ItemGuardarComo = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -69,9 +72,7 @@ public class InterfazFrame extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
@@ -80,6 +81,7 @@ public class InterfazFrame extends javax.swing.JFrame {
         jMenuItem18 = new javax.swing.JMenuItem();
         jMenuItem19 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -87,16 +89,16 @@ public class InterfazFrame extends javax.swing.JFrame {
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/nuevo.gif"))); // NOI18N
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/nuevo.gif"))); // NOI18N
+        botonNuevo.setFocusable(false);
+        botonNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botonNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonNuevoActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(botonNuevo);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/abrir.gif"))); // NOI18N
         jButton2.setFocusable(false);
@@ -134,32 +136,35 @@ public class InterfazFrame extends javax.swing.JFrame {
 
         jMenu1.setText("Archivo");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/nuevo.gif"))); // NOI18N
-        jMenuItem1.setText("Nuevo");
-        jMenuItem1.setToolTipText("");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemNuevo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/nuevo.gif"))); // NOI18N
+        jMenuItemNuevo.setText("Nuevo");
+        jMenuItemNuevo.setToolTipText("");
+        jMenuItemNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItemNuevoActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(jMenuItemNuevo);
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/abrir.gif"))); // NOI18N
         jMenuItem2.setText("Abrir...");
         jMenu1.add(jMenuItem2);
 
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/guardar.gif"))); // NOI18N
         jMenuItem3.setText("Guardar");
         jMenu1.add(jMenuItem3);
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/guardarComo.gif"))); // NOI18N
-        jMenuItem4.setText("Guardar como...");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        ItemGuardarComo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/guardarComo.gif"))); // NOI18N
+        ItemGuardarComo.setText("Guardar como...");
+        ItemGuardarComo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                ItemGuardarComoActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem4);
+        jMenu1.add(ItemGuardarComo);
         jMenu1.add(jSeparator1);
 
         jMenuItem5.setText("Salir");
@@ -174,16 +179,20 @@ public class InterfazFrame extends javax.swing.JFrame {
 
         jMenu2.setText("Editar");
 
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem6.setText("Deshacer");
         jMenu2.add(jMenuItem6);
         jMenu2.add(jSeparator2);
 
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem7.setText("Cortar");
         jMenu2.add(jMenuItem7);
 
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem8.setText("Copiar");
         jMenu2.add(jMenuItem8);
 
+        jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem9.setText("Pegar");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,26 +201,25 @@ public class InterfazFrame extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem9);
 
+        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
         jMenuItem10.setText("Eliminar");
         jMenu2.add(jMenuItem10);
         jMenu2.add(jSeparator3);
 
+        jMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem11.setText("Buscar...");
         jMenu2.add(jMenuItem11);
 
-        jMenuItem12.setText("Buscar siguiene");
-        jMenu2.add(jMenuItem12);
-
+        jMenuItem13.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem13.setText("Reemplazar");
         jMenu2.add(jMenuItem13);
-
-        jMenuItem14.setText("Ir a...");
-        jMenu2.add(jMenuItem14);
         jMenu2.add(jSeparator4);
 
+        jMenuItem15.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem15.setText("Seleccionar todo");
         jMenu2.add(jMenuItem15);
 
+        jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
         jMenuItem16.setText("Hora y fecha");
         jMenu2.add(jMenuItem16);
 
@@ -246,6 +254,10 @@ public class InterfazFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Ayuda");
+
+        jMenuItem1.setText("Acerca de (NOMBRE)");
+        jMenu4.add(jMenuItem1);
+
         jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
@@ -279,17 +291,36 @@ public class InterfazFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void ItemGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemGuardarComoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+        JFileChooser chooser = new JFileChooser();
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Guardar como...");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setApproveButtonText("Guardar");
+        
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("PDF (*.pdf)", "pdf"));
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("Todos los archivos (*.*)", " "));
+        
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            //this.nuevaFila("Directorio", chooser.getSelectedFile().toString());
+        } else {
+            System.out.println("No Selection ");
+        }
+    }//GEN-LAST:event_ItemGuardarComoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jMenuItemNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNuevoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        jTextArea1.setText("");
+    }//GEN-LAST:event_jMenuItemNuevoActionPerformed
+
+    private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+        // TODO add your handling code here:
+        jTextArea1.setText("");
+    }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
@@ -306,7 +337,7 @@ public class InterfazFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         OpcionesFrame op = null;
         try {
-            op = new OpcionesFrame(this,true,predictor);
+            op = new OpcionesFrame(this, true, predictor);
         } catch (IOException ex) {
             Logger.getLogger(InterfazFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -316,7 +347,7 @@ public class InterfazFrame extends javax.swing.JFrame {
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
         // TODO add your handling code here:
         try {
-            IdiomaFrame id= new IdiomaFrame(this, false);
+            IdiomaFrame id = new IdiomaFrame(this, false);
             id.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(InterfazFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -325,7 +356,8 @@ public class InterfazFrame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JMenuItem ItemGuardarComo;
+    private javax.swing.JButton botonNuevo;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -337,9 +369,7 @@ public class InterfazFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
@@ -347,12 +377,12 @@ public class InterfazFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JMenuItem jMenuItemNuevo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
