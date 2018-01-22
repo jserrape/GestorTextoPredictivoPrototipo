@@ -5,6 +5,7 @@
  */
 package Frame;
 
+import gestortextopredictivo.Configuracion;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.DefaultListModel;
@@ -15,32 +16,44 @@ import javax.swing.DefaultListModel;
  */
 public class IdiomaFrame extends javax.swing.JDialog {
 
+    private final Configuracion confi;
+    private final InterfazFrame interfaz;
+
     /**
      * Creates new form IdiomaFrame
+     *
      * @param parent
      * @param modal
+     * @param conf
+     * @param inter
      * @throws java.io.IOException
      */
-    public IdiomaFrame(java.awt.Frame parent, boolean modal) throws IOException {
+    public IdiomaFrame(java.awt.Frame parent, boolean modal, Configuracion conf, InterfazFrame inter) throws IOException {
         super(parent, modal);
         initComponents();
+        this.confi = conf;
+        this.interfaz = inter;
 
+        setIdiomaInterfaz();
         setLocationRelativeTo(null);
-        this.setTitle("Selección de idioma");
+        
 
         DefaultListModel listModel = new DefaultListModel();
-        
-        
+
         File miDir = new File(".\\idioma");
         File f = new File(miDir.getCanonicalPath());
+        int n=0;
         if (f.exists()) {
             File[] ficheros = f.listFiles();
-            for (File fichero : ficheros) {
-                listModel.addElement(fichero.getName());
+            for (int i = 0; i < ficheros.length; i++) {
+                listModel.addElement(ficheros[i].getName());
+                if(ficheros[i].getName().equals(this.confi.getIdioma())){
+                    n=i;
+                }
             }
         }
         this.jList2.setModel(listModel);
-        jList2.setSelectedIndex(1);
+        jList2.setSelectedIndex(n);
     }
 
     /**
@@ -52,8 +65,8 @@ public class IdiomaFrame extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        botonCancelar = new javax.swing.JButton();
+        botonAceptar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -62,17 +75,17 @@ public class IdiomaFrame extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonCancelar.setText("Cancelar");
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonCancelarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Aceptar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        botonAceptar.setText("Aceptar");
+        botonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                botonAceptarActionPerformed(evt);
             }
         });
 
@@ -120,9 +133,9 @@ public class IdiomaFrame extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(botonAceptar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(botonCancelar)
                 .addContainerGap())
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane2)
@@ -135,32 +148,48 @@ public class IdiomaFrame extends javax.swing.JDialog {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(botonCancelar)
+                    .addComponent(botonAceptar))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
         // TODO add your handling code here:
+        System.out.println(this.jList2.getSelectedValue());
+        if (!this.confi.getIdioma().equals(this.jList2.getSelectedValue())) {
+            this.confi.cargarIdioma(this.jList2.getSelectedValue());
+            setIdiomaInterfaz();
+            this.interfaz.setIdiomaInterfaz();
+            this.confi.escribirConf();
+        }
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_botonAceptarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botonCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton botonAceptar;
+    private javax.swing.JButton botonCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
+
+    private void setIdiomaInterfaz() {
+        this.botonAceptar.setText(this.confi.getPalabra(21));
+        this.botonCancelar.setText(this.confi.getPalabra(22));
+        this.jLabel1.setText(this.confi.getPalabra(23));
+        this.jLabel2.setText(this.confi.getPalabra(24));
+        this.setTitle(this.confi.getPalabra(35));
+    }
+
 }

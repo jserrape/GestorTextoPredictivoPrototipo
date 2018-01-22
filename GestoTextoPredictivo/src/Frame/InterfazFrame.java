@@ -5,8 +5,10 @@
  */
 package Frame;
 
+import gestortextopredictivo.Configuracion;
 import gestortextopredictivo.Predictor;
 import java.awt.Font;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,16 +24,18 @@ public class InterfazFrame extends javax.swing.JFrame {
 
     private Font font;
     private final Predictor predictor;
+    private final Configuracion config;
 
     /**
      * Creates new form Interfaz
      *
      * @throws javax.swing.text.BadLocationException
      */
-    public InterfazFrame() throws BadLocationException {
+    public InterfazFrame() throws BadLocationException, FileNotFoundException {
         initComponents();
         setLocationRelativeTo(null);
-        this.setTitle("Gestor de texto predictivo con origen de datos configurable");
+        config = new Configuracion();
+        setIdiomaInterfaz();
 
         font = new Font("Arial", Font.PLAIN, 20);
         predictor = new Predictor(3, 5, font, this.jTextArea1);
@@ -301,11 +305,11 @@ public class InterfazFrame extends javax.swing.JFrame {
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setApproveButtonText("Guardar");
-        
+
         chooser.addChoosableFileFilter(new FileNameExtensionFilter("Documentos de texto (*.txt)", "txt"));
         chooser.addChoosableFileFilter(new FileNameExtensionFilter("PDF (*.pdf)", "pdf"));
         chooser.addChoosableFileFilter(new FileNameExtensionFilter("Todos los archivos (*.*)", " "));
-        
+
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             //this.nuevaFila("Directorio", chooser.getSelectedFile().toString());
         } else {
@@ -330,7 +334,7 @@ public class InterfazFrame extends javax.swing.JFrame {
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
         // TODO add your handling code here:
-        FormatoFrame ff = new FormatoFrame(this, true, font, this);
+        FormatoFrame ff = new FormatoFrame(this, true, font, this, this.config);
         ff.setVisible(true);
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
@@ -338,7 +342,7 @@ public class InterfazFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         OpcionesFrame op = null;
         try {
-            op = new OpcionesFrame(this, true, predictor);
+            op = new OpcionesFrame(this, true, predictor,this.config);
         } catch (IOException ex) {
             Logger.getLogger(InterfazFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -348,7 +352,7 @@ public class InterfazFrame extends javax.swing.JFrame {
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
         // TODO add your handling code here:
         try {
-            IdiomaFrame id = new IdiomaFrame(this, false);
+            IdiomaFrame id = new IdiomaFrame(this, false, this.config, this);
             id.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(InterfazFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -398,6 +402,32 @@ public class InterfazFrame extends javax.swing.JFrame {
     public void aplicarFormato(Font f) {
         this.font = f;
         this.jTextArea1.setFont(font);
+    }
+
+    public void setIdiomaInterfaz() {
+        jMenu1.setText(this.config.getPalabra(0));
+        jMenu2.setText(this.config.getPalabra(1));
+        jMenu3.setText(this.config.getPalabra(2));
+        jMenu4.setText(this.config.getPalabra(3));
+        jMenuItemNuevo.setText(this.config.getPalabra(4));
+        jMenuItem2.setText(this.config.getPalabra(5));
+        jMenuItem3.setText(this.config.getPalabra(6));
+        ItemGuardarComo.setText(this.config.getPalabra(7));
+        jMenuItem5.setText(this.config.getPalabra(8));
+        jMenuItem6.setText(this.config.getPalabra(9));
+        jMenuItem7.setText(this.config.getPalabra(10));
+        jMenuItem8.setText(this.config.getPalabra(11));
+        jMenuItem9.setText(this.config.getPalabra(12));
+        jMenuItem10.setText(this.config.getPalabra(13));
+        jMenuItem11.setText(this.config.getPalabra(14));
+        jMenuItem13.setText(this.config.getPalabra(15));
+        jMenuItem15.setText(this.config.getPalabra(16));
+        jMenuItem16.setText(this.config.getPalabra(17));
+        jMenuItem17.setText(this.config.getPalabra(18));
+        jMenuItem18.setText(this.config.getPalabra(19));
+        jMenuItem19.setText(this.config.getPalabra(20));
+        jMenuItem1.setText(this.config.getPalabra(21)); //<--- Cambiar
+        this.setTitle(this.config.getPalabra(34));
     }
 
 }

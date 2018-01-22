@@ -5,6 +5,7 @@
  */
 package Frame;
 
+import gestortextopredictivo.Configuracion;
 import gestortextopredictivo.Predictor;
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,6 +35,7 @@ public class OpcionesFrame extends javax.swing.JDialog {
 
     private final DefaultTableModel modelo;
     private final Predictor predictor;
+     private final Configuracion confi;
 
     /**
      * Creates new form OpcionesFrame2
@@ -43,7 +45,7 @@ public class OpcionesFrame extends javax.swing.JDialog {
      * @param pred
      * @throws java.io.IOException
      */
-    public OpcionesFrame(java.awt.Frame parent, boolean modal, Predictor pred) throws IOException {
+    public OpcionesFrame(java.awt.Frame parent, boolean modal, Predictor pred,Configuracion confi) throws IOException {
         super(parent, modal);
         initComponents();
 
@@ -51,6 +53,7 @@ public class OpcionesFrame extends javax.swing.JDialog {
         this.setTitle("Configuración de predicción");
 
         this.predictor = pred;
+        this.confi=confi;
 
         modelo = new DefaultTableModel();
         modelo.addColumn("Tipo");
@@ -430,7 +433,7 @@ public class OpcionesFrame extends javax.swing.JDialog {
      * @param evt Evento del botón
      */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        nuevaURLFrame url = new nuevaURLFrame(this, true, this);
+        nuevaURLFrame url = new nuevaURLFrame(this, true, this,this.confi);
         url.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 

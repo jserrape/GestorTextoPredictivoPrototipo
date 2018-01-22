@@ -5,6 +5,7 @@
  */
 package Frame;
 
+import gestortextopredictivo.Configuracion;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ import org.apache.commons.validator.UrlValidator;
 public class nuevaURLFrame extends javax.swing.JDialog {
 
     private final OpcionesFrame op;
+    private final Configuracion confi;
 
     /**
      * Constructor parametrizado
@@ -25,14 +27,16 @@ public class nuevaURLFrame extends javax.swing.JDialog {
      * @param modal Valor modal
      * @param Opp Objeto padre: Opciones
      */
-    public nuevaURLFrame(javax.swing.JDialog parent, boolean modal, OpcionesFrame Opp) {
+    public nuevaURLFrame(javax.swing.JDialog parent, boolean modal, OpcionesFrame Opp, Configuracion confi) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        this.setTitle("Nueva url");
         
         this.op = Opp;
         this.jTextField1.addKeyListener(new KeyListenerImpl(jButton1, jTextField1));
+        this.confi = confi;
+        
+        setIdiomaInterfaz();
     }
 
     @SuppressWarnings("unchecked")
@@ -105,6 +109,7 @@ public class nuevaURLFrame extends javax.swing.JDialog {
 
     /**
      * Cierra el JDialog
+     *
      * @param evt Evento de pulsar el botón
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -113,6 +118,7 @@ public class nuevaURLFrame extends javax.swing.JDialog {
 
     /**
      * Cierra el JDialog y crea una entrada con la url en la tabla de Opciones
+     *
      * @param evt Evento de pulsar el botón
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -132,6 +138,13 @@ public class nuevaURLFrame extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
+    private void setIdiomaInterfaz() {
+        jLabel1.setText(this.confi.getPalabra(32));
+        jButton1.setText(this.confi.getPalabra(21));
+        jButton1.setText(this.confi.getPalabra(22));
+        this.setTitle(this.confi.getPalabra(33));
+    }
+
     /**
      * Listener del jTextField1
      */
@@ -142,6 +155,7 @@ public class nuevaURLFrame extends javax.swing.JDialog {
 
         /**
          * Consructor parametrizado
+         *
          * @param jButton1 Boton "Aceptar"
          * @param jTextField1 Zona de escritura de texto
          */
@@ -152,6 +166,7 @@ public class nuevaURLFrame extends javax.swing.JDialog {
 
         /**
          * Listener que sucede al: al pulsar y soltar la tecla.
+         *
          * @param e Evento sucedido
          */
         @Override
@@ -160,6 +175,7 @@ public class nuevaURLFrame extends javax.swing.JDialog {
 
         /**
          * Listener que sucede al: al pulsar la tecla.
+         *
          * @param e Evento sucedido
          */
         @Override
@@ -168,6 +184,7 @@ public class nuevaURLFrame extends javax.swing.JDialog {
 
         /**
          * Listener que sucede al: al soltar la tecla.
+         *
          * @param e Evento sucedido
          */
         @Override
