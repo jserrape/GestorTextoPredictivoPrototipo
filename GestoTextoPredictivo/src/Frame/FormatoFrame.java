@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestortextopredictivo;
+package Frame;
 
 import java.awt.Font;
 import javax.swing.JList;

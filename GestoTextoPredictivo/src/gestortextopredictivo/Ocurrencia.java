@@ -5,11 +5,13 @@
  */
 package gestortextopredictivo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jcsp0003
  */
-public class Ocurrencia{
+public class Ocurrencia implements Serializable{
 
     private int n;
     private final String prediccion;

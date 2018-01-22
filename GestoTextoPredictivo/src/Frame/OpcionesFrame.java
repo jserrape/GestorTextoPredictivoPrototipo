@@ -3,13 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestortextopredictivo;
+package Frame;
 
+import gestortextopredictivo.Predictor;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -35,6 +41,7 @@ public class OpcionesFrame extends javax.swing.JDialog {
      * @param parent
      * @param modal
      * @param pred
+     * @throws java.io.IOException
      */
     public OpcionesFrame(java.awt.Frame parent, boolean modal, Predictor pred) throws IOException {
         super(parent, modal);
@@ -97,6 +104,8 @@ public class OpcionesFrame extends javax.swing.JDialog {
         jtManPredicciones1 = new javax.swing.JSpinner();
         jLabel8 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -335,6 +344,32 @@ public class OpcionesFrame extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Anteriores conjuntos", jPanel2);
 
+        jButton7.setText("Cargar último data set");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(256, 256, 256)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(258, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(141, 141, 141)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(142, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Último conjunto", jPanel3);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -463,6 +498,23 @@ public class OpcionesFrame extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream("./seriabilizado/fich");
+            try (ObjectInputStream ois = new ObjectInputStream(fis)) {
+                predictor.actualizar((Predictor) ois.readObject());
+            }
+            fis.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(OpcionesFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(OpcionesFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(OpcionesFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * Extrae el texto de los ficheros de un array
      *
@@ -569,6 +621,7 @@ public class OpcionesFrame extends javax.swing.JDialog {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -581,6 +634,7 @@ public class OpcionesFrame extends javax.swing.JDialog {
     private javax.swing.JSpinner jMinSemilla1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

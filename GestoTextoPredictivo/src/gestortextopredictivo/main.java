@@ -5,6 +5,7 @@
  */
 package gestortextopredictivo;
 
+import Frame.InterfazFrame;
 import java.io.IOException;
 import javax.swing.text.BadLocationException;
 

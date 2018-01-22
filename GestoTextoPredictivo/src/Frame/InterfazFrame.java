@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestortextopredictivo;
+package Frame;
 
+import gestortextopredictivo.Predictor;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.logging.Level;

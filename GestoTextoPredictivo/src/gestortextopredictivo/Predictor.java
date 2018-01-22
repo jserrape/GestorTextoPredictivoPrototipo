@@ -4,6 +4,13 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +24,11 @@ import javax.swing.text.JTextComponent;
  *
  * @author jcsp0003
  */
-public class Predictor {
+public class Predictor implements Serializable {
 
     private int tamSemilla;
     private int tamPrediccion;
-    private final Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas;
+    private Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas;
     private int nMaxPredicciones;
 
     /**
@@ -45,7 +52,7 @@ public class Predictor {
         Posicion pos = new Posicion();
 
         jt.addKeyListener(new KeyListenerImpl(jt, this, new PopUpMenu(jt), pos));
-        jt.addCaretListener(new MyCaretListener(jt, pos));
+        jt.addCaretListener(new CaretListenerImpl(jt, pos));
     }
 
     /**
@@ -56,7 +63,7 @@ public class Predictor {
      * @param jProgressBar1 Barra de progreso
      */
     public void insertarTexto(ArrayList<String> ficheros, ArrayList<String> urls, javax.swing.JProgressBar jProgressBar1) { //AÑADIR AQUI LA URL TAMBIEN
-        hiloLectura hiloLec = new hiloLectura(ficheros, urls, tamSemilla, tamPrediccion, almacenesSemillas, jProgressBar1); //CAMBIAR Y ENVIAR EL DE URLS
+        hiloLectura hiloLec = new hiloLectura(ficheros, urls, tamSemilla, tamPrediccion, almacenesSemillas, jProgressBar1, this); //CAMBIAR Y ENVIAR EL DE URLS
         Thread th = new Thread(hiloLec);
         th.start();
     }
@@ -212,6 +219,23 @@ public class Predictor {
         this.nMaxPredicciones = ntamPredicciones;
     }
 
+    public void seriabilizarClase() throws IOException {
+        ByteArrayOutputStream bs = new ByteArrayOutputStream();
+        ObjectOutputStream os = new ObjectOutputStream(bs);
+        os.writeObject(this);
+        os.close();
+        byte[] bytes = bs.toByteArray();
+        Path path = Paths.get("./seriabilizado/fich");
+        Files.write(path, bytes);
+    }
+
+    public void actualizar(Predictor pred) {
+        tamSemilla = pred.tamSemilla;
+        tamPrediccion = pred.tamPrediccion;
+        almacenesSemillas = pred.almacenesSemillas;
+        nMaxPredicciones = pred.nMaxPredicciones;
+    }
+
     private class KeyListenerImpl implements KeyListener {
 
         private final JTextArea jt;
@@ -257,12 +281,12 @@ public class Predictor {
         }
     }
 
-    private static class MyCaretListener implements CaretListener {
+    private class CaretListenerImpl implements CaretListener {
 
         private final JTextArea jt;
         private final Posicion pos;
 
-        MyCaretListener(JTextArea jt, Posicion pos) {
+        CaretListenerImpl(JTextArea jt, Posicion pos) {
             this.jt = jt;
             this.pos = pos;
         }
@@ -287,6 +311,5 @@ public class Predictor {
                 throw new RuntimeException("Failed to get pixel position of caret", ex);
             }
         }
-
     }
 }

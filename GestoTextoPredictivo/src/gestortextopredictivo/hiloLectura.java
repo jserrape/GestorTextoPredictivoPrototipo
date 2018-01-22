@@ -1,5 +1,6 @@
 package gestortextopredictivo;
 
+import Frame.OpcionesFrame;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -22,6 +23,7 @@ public class hiloLectura implements Runnable {
     private final int tamPrediccion;
     private final Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas;
     private final javax.swing.JProgressBar jProgressBar1;
+    private final Predictor predictor;
 
     /**
      * Constructor parametrizado
@@ -34,13 +36,14 @@ public class hiloLectura implements Runnable {
      * @param jProgressBar1 Barra de progreso de la lectura.
      */
     public hiloLectura(ArrayList<String> ficheros, ArrayList<String> urls, int tamSemilla, int tamPrediccion,
-            Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas, javax.swing.JProgressBar jProgressBar1) {
+            Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas, javax.swing.JProgressBar jProgressBar1, Predictor pred) {
         this.ficheros = ficheros;
         this.urls = urls;
         this.tamSemilla = tamSemilla;
         this.tamPrediccion = tamPrediccion;
         this.almacenesSemillas = almacenesSemillas;
         this.jProgressBar1 = jProgressBar1;
+        this.predictor = pred;
     }
 
     /**
@@ -82,9 +85,15 @@ public class hiloLectura implements Runnable {
             almacenesSemillas[i].forEach((k, v) -> Collections.sort(v, (Ocurrencia o1, Ocurrencia o2) -> Integer.valueOf(o2.getN()).compareTo(o1.getN())));
         }
 
+        try {
+            this.predictor.seriabilizarClase();
+        } catch (IOException ex) {
+            Logger.getLogger(hiloLectura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         jProgressBar1.setValue(100);
         try {
-            crearDataSet(ficheros,urls);
+            crearDataSet(ficheros, urls);
         } catch (IOException ex) {
             Logger.getLogger(hiloLectura.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -154,20 +163,20 @@ public class hiloLectura implements Runnable {
     }
 
     private void crearDataSet(ArrayList<String> ficheros, ArrayList<String> urls) throws IOException {
-        java.util.Date utilDate = new java.util.Date(); 
-        String []  fecha = utilDate.toString().split(" ");
+        java.util.Date utilDate = new java.util.Date();
+        String[] fecha = utilDate.toString().split(" ");
 
-        String ruta = "./dataSet/"+fecha[0]+"-"+fecha[2]+"-"+fecha[1]+"-"+fecha[3].replaceAll(":", "_");
+        String ruta = "./dataSet/" + fecha[0] + "-" + fecha[2] + "-" + fecha[1] + "-" + fecha[3].replaceAll(":", "_");
         File archivo = new File(ruta);
         BufferedWriter bw;
         bw = new BufferedWriter(new FileWriter(archivo));
-        
-        for(int i=0;i<ficheros.size();i++){
-            bw.write("fichero###"+ficheros.get(i));
+
+        for (int i = 0; i < ficheros.size(); i++) {
+            bw.write("fichero###" + ficheros.get(i));
             bw.newLine();
         }
-        for(int i=0;i<urls.size();i++){
-            bw.write("url###"+urls.get(i));
+        for (int i = 0; i < urls.size(); i++) {
+            bw.write("url###" + urls.get(i));
             bw.newLine();
         }
         bw.close();
