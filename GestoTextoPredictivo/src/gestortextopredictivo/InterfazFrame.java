@@ -397,8 +397,6 @@ public class InterfazFrame extends javax.swing.JFrame {
     public void aplicarFormato(Font f) {
         this.font = f;
         this.jTextArea1.setFont(font);
-
-        this.predictor.cambiarFuente(f);
     }
 
 }

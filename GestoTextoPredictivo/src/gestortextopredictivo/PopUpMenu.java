@@ -6,7 +6,6 @@
 package gestortextopredictivo;
 
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class PopUpMenu {
     private final JPopupMenu Pmenu;
     private final javax.swing.JTextArea jt;
 
-    public PopUpMenu(javax.swing.JTextArea jt, Font font) {
+    public PopUpMenu(javax.swing.JTextArea jt) {
         this.jt = jt;
         Pmenu = new JPopupMenu();
     }

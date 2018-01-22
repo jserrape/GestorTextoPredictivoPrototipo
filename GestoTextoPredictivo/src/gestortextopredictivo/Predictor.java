@@ -1,14 +1,17 @@
 package gestortextopredictivo;
 
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JTextArea;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -19,7 +22,6 @@ public class Predictor {
     private int tamSemilla;
     private int tamPrediccion;
     private final Map<String, ArrayList<Ocurrencia>>[] almacenesSemillas;
-    private final KeyListenerImpl list;
     private int nMaxPredicciones;
 
     /**
@@ -40,8 +42,10 @@ public class Predictor {
             almacenesSemillas[i] = new HashMap<>();
         }
 
-        list = new KeyListenerImpl(jt, this, new PopUpMenu(jt, font), font);
-        jt.addKeyListener(list);
+        Posicion pos = new Posicion();
+
+        jt.addKeyListener(new KeyListenerImpl(jt, this, new PopUpMenu(jt), pos));
+        jt.addCaretListener(new MyCaretListener(jt, pos));
     }
 
     /**
@@ -208,26 +212,18 @@ public class Predictor {
         this.nMaxPredicciones = ntamPredicciones;
     }
 
-    public void cambiarFuente(Font f) {
-        this.list.cambiarFuente(f);
-    }
-
     private class KeyListenerImpl implements KeyListener {
 
         private final JTextArea jt;
         private final Predictor predictor;
         private final PopUpMenu pop;
-        private Font font;
+        private final Posicion pos;
 
-        public KeyListenerImpl(JTextArea jt, Predictor pre, PopUpMenu pop, Font font) {
+        public KeyListenerImpl(JTextArea jt, Predictor pre, PopUpMenu pop, Posicion pos) {
             this.jt = jt;
             this.predictor = pre;
             this.pop = pop;
-            this.font = font;
-        }
-
-        public void cambiarFuente(Font f) {
-            this.font = f;
+            this.pos = pos;
         }
 
         @Override
@@ -257,14 +253,40 @@ public class Predictor {
 
             ArrayList<Ocurrencia> predicciones = predictor.enviarPrediccion(texto.toLowerCase(), acabado);
 
-            String text = jt.getText();
-
-            AffineTransform affinetransform = new AffineTransform();
-            FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-            int textwidth = ((int) (font.getStringBounds(text, frc).getWidth())) % jt.getBounds().width;
-            int textheight = ((((int) (font.getStringBounds(text, frc).getWidth())) / jt.getBounds().width) + 1) * (((int) (font.getStringBounds(text, frc).getHeight())));
-
-            this.pop.colocar(e.getComponent(), textwidth, textheight, predicciones);
+            this.pop.colocar(e.getComponent(), pos.getX(), pos.getY(), predicciones);
         }
+    }
+
+    private static class MyCaretListener implements CaretListener {
+
+        private final JTextArea jt;
+        private final Posicion pos;
+
+        MyCaretListener(JTextArea jt, Posicion pos) {
+            this.jt = jt;
+            this.pos = pos;
+        }
+
+        @Override
+        public void caretUpdate(CaretEvent e) {
+            JTextComponent textComp = (JTextComponent) e.getSource();
+            try {
+                if ("".equals(this.jt.getText().replaceAll("\n", ""))) {
+                    return;
+                }
+
+                Rectangle rect = textComp.getUI().modelToView(textComp, e.getDot());
+                String posiciones = rect.toString();
+                String[] posArr = posiciones.substring(rect.toString().indexOf("[") + 1, rect.toString().length() - 1).split(",");
+
+                int x = Integer.parseInt(posArr[0].substring(2, posArr[0].length()));
+                int y = Integer.parseInt(posArr[1].substring(2, posArr[1].length())) + Integer.parseInt(posArr[3].substring(7, posArr[3].length()));
+                pos.setX(x);
+                pos.setY(y);
+            } catch (BadLocationException ex) {
+                throw new RuntimeException("Failed to get pixel position of caret", ex);
+            }
+        }
+
     }
 }

@@ -115,7 +115,7 @@ public class OpcionesFrame extends javax.swing.JDialog {
             }
         });
 
-        jtSemilla.setModel(new javax.swing.SpinnerNumberModel(3, 0, 5, 1));
+        jtSemilla.setModel(new javax.swing.SpinnerNumberModel(3, 1, 5, 1));
 
         jtamPrediccion.setModel(new javax.swing.SpinnerNumberModel(2, 0, 5, 1));
 
